@@ -8,9 +8,9 @@
 #' @param obj.list A list that must have the names, functionObj (for the objective function to be optimized),
 #' gradientObj (for the corresponding gradient function), as the example \cr
 #' \code{ objFG <- list(functionObj = f, gradientObj = df)} \cr \code{f} and \code{df} returns values.
-#' @param X.list A list that must have the names, x (for the point), fx (for the value of the function in x),
-#' dfx (for the value of the gradiente in x), as the example \cr
-#' \code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr
+#' @param X.list A list that must have the names, x (for the point), F(x) (for the value of the function in x),
+#' dF(x) (for the value of the gradiente in x), as the example \cr
+#' \code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr
 #' @param Options.list A list as the example \cr
 #' \code{options <- list(A = , B = , Eps = ,  Method = , RhoBacktracking = , cBacktracing = , use_bracketing = ,
 #' step_bracketing =, maxNI =)} \cr
@@ -41,7 +41,7 @@
 #'
 #' f <- function{return(fx)}
 #' dfun <- functuib{return(dfx)}
-#' x <- list(x = c(1,2), fx = f(c(1,2)), dfx = dfun(c(1,2)))
+#' x <- list(X = c(1,2), `F(x)` = f(c(1,2)), `dF(x)` = dfun(c(1,2)))
 #' objfunctions <- list(functionObj = f, gradientObj = dfun)
 #'
 #' quasiNewton(objfunctions, x, c(-3,2), options1)
@@ -59,20 +59,23 @@
 
 quasiNewton <- function(obj.list, x.list, Options.list){
   #Checking the parameters
-  checkparameters(obj.list, x.list, Options.list)
+  outcheck <- checkparameters(obj.list, x.list, Options.list)
+  obj.list <- outcheck[[1]]
+  x.list <- outcheck[[2]]
+  Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
   dFun <- obj.list$gradientObj
 
   x_k1 <- x.list
-  dfx_k1 <- x.list[[3]]
+  dfx_k1 <- x.list$`dF(x)`
 
   eps <- Options.list$Eps
 
   #--------Quasi-Newton Method--------------#
 
-  hesI <- diag(length(x.list[[1]]))
+  hesI <- diag(length(x.list$X))
 
   for (k in 1:(Options.list$maxNI)){
 
@@ -87,10 +90,10 @@ quasiNewton <- function(obj.list, x.list, Options.list){
     alpha <- out[[2]] #numeric
 
     #Gradient in the new point
-    dfx_k1 <- dFun(x_k1[[1]], obj)
+    dfx_k1 <- dFun(x_k1$X, obj)
 
     #BFGS constants
-    v <- x_k[[1]] - x_k1[[1]]
+    v <- x_k$X - x_k1$X
     r <- dfx_k - dfx_k1
 
     C <- bfgs(r, v, hesI)

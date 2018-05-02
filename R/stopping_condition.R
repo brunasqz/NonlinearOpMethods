@@ -34,8 +34,8 @@
 
 stopping_condition <- function(x_k1, x_k, Options.list){ #eps_f eps_df in Options.list
 
-  cond1 <- (abs(x_k1[[2]] - x_k[[2]])) <= (Options.list$Eps_f)
-  cond2 <- (normE(x_k1[[3]])) <= (Options.list$Eps_df)
+  cond1 <- (abs(x_k1$`F(x)` - x_k$`F(x)`)) <= (Options.list$Eps_f)
+  cond2 <- (normE(x_k1$`dF(x)`)) <= (Options.list$Eps_df)
   # cond3 <- n_f > nfmax
 
   return (cond1 | cond2 )

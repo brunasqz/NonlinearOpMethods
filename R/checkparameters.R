@@ -13,7 +13,7 @@
 #' \item A and B (numbers), used in function \code{linesearch}
 #' \item Method ("quadraticinterpolation" or "goldensection"), used in function \code{linesearch}
 #' \item rhoBacktracking e cBacktracking, used in function \code{linesearch}
-#' \item Eps, epsilon = error tolerance, default = 1e-6
+#' \item Eps, epsilon, error tolerance, default = 1e-6
 #' \item Eps_f for the functions \code{stopping_conditions}, \code{quasiNewton} and \code{conjugateGradient}
 #' \item Eps_df for the functions \code{stopping_conditions}, \code{quasiNewton} and \code{conjugateGradient}
 #' \item maxNI maximum number iterations for the functions \code{stopping_conditions}, \code{quasiNewton} and
@@ -37,7 +37,7 @@ checkparameters <- function(obj.list, x.list, Options.list) {
    dFun <- gradient
 
     #Complete the list
-    eval.parent(substitute(obj.list$gradientObj <- dFun))
+   obj.list$gradientObj <- dFun
   } else {
 
     dFun <- obj.list$gradientObj
@@ -45,12 +45,12 @@ checkparameters <- function(obj.list, x.list, Options.list) {
 
   #------Checking x.list-----------------#
 
-  if(!(3) %in% x.list) {
+  if(!("dF(x)") %in% x.list) {
 
-    dfx_k1 <- dFun(x.list[[1]], obj.list$functionObj)
+    dfx_k1 <- dFun(x.list$X, obj.list$functionObj)
 
     #Complete the list
-    eval.parent(substitute(x.list[[3]] <- dfx_k1))
+    x.list$`dF(x)` <- dfx_k1
   }
 
   # ----- Checking parameters of Options.list ----- #
@@ -58,7 +58,7 @@ checkparameters <- function(obj.list, x.list, Options.list) {
   #maximum number of iterations (Quasi-Newton, Conjugate Gradient)
   if(!("maxNI") %in% names(Options.list)) {
 
-    eval.parent(substitute(Options.list$maxNI <- 200))
+    Options.list$maxNI <- 200
   } else {
     #verify if maxNI is correct
     if(is.numeric(Options.list$maxNI) == FALSE) {
@@ -70,7 +70,7 @@ checkparameters <- function(obj.list, x.list, Options.list) {
 
   if(!("RhoBacktracking") %in% names(Options.list)) {
 
-    eval.parent(substitute(Options.list$RhoBacktracking <- 0.5))
+    Options.list$RhoBacktracking <- 0.5
   } else {
     if(is.numeric(Options.list$RhoBacktracking) == FALSE) {
       message("Parameter RhoBacktracking in Options.list isn't numeric.")
@@ -79,24 +79,29 @@ checkparameters <- function(obj.list, x.list, Options.list) {
 
   if(!("cBacktracking") %in% names(Options.list)) {
 
-    eval.parent(substitute(Options.list$cBacktracking <- 1e-4))
-  } #verificar se é numerico
-
+    Options.list$cBacktracking <- 1e-4
+  } else {
+    if(is.numeric(Options.list$cBacktracking) == FALSE) {
+      message("Parameter cBacktracking in Options.list isn't numeric.")
+    }
+  }
 
   if(!("Eps") %in% names(Options.list)) {
 
-    eval.parent(substitute(Options.list$Eps <- 1e-6))
+    Options.list$Eps <- 1e-6
   }
 
   if(!("Eps_f") %in% names(Options.list)) {
 
-    eval.parent(substitute(Options.list$Eps_f <- 1e-6))
+    Options.list$Eps_f <- 1e-6
   }
 
   if(!("Eps_df") %in% names(Options.list)) {
 
-    eval.parent(substitute(Options.list$Eps_df <- 1e-8))
+    Options.list$Eps_df <- 1e-8
   }
+
+  return(list(obj.list, x.list, Options.list))
 
 }
 

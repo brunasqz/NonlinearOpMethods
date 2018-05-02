@@ -11,9 +11,9 @@ linesearch(obj.list, X.list, searchD, Options.list)
 gradientObj (for the corresponding gradient function), as the example \cr
 \code{ objFG <- list(functionObj = f, gradientObj = df)} \cr \code{f} and \code{df} returns values.}
 
-\item{X.list}{A list that must have the names, x (for the point), fx (for the value of the function in x),
-dfx (for the value of the gradiente in x), as the example \cr
-\code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr}
+\item{X.list}{A list that must have the names, x (for the point), F(x) (for the value of the function in x),
+dF(x) (for the value of the gradiente in x), as the example \cr
+\code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr}
 
 \item{searchD}{A search direction for the method.}
 
@@ -38,7 +38,7 @@ interval for search.
 \item step_bracketing, for determine the step length in bracketing; if use_bracketing = TRUE, step_bracketing
 must have a value.
 \item A e B (numbers), user-determined search interval; default A = 0 and B = 1.
-\item Method (character), in format "quadraticinterpolation" or "goldensection", if its NULL or not
+\item Method (a character string), in format "quadraticinterpolation" or "goldensection", if its NULL or not
 passed, by default, the method used is backtracking.
 \item rhoBacktracking and cBacktracking (numbers), control variables in backtracking.
 \item Eps, epsilon = error tolerance, default = 1e-6
@@ -52,8 +52,9 @@ options3 <- list(Method = "quadraticinterpolation", A = 3, B = 5, use_bracketing
 
 f <- function{return(fx)}
 dfun <- functuib{return(dfx)}
-x <- list(x = c(1,2), fx = f(c(1,2)), dfx = dfun(c(1,2)))
+x <- list(X = c(1,2), `F(x)` = f(c(1,2)), `dF(x)` = dfun(c(1,2)))
 objfunctions <- list(functionObj = f, gradientObj = dfun)
+
 linesearch(objfunctions, x, c(-3,2), options1)
 linesearch(objfunctions, x, c(-3,2), options2)
 linesearch(objfunctions, x, c(-3,2), options4)

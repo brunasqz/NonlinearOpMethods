@@ -9,9 +9,9 @@ backtracking(obj, X.list, searchD, rho = 0.5, c = 1e-04)
 \arguments{
 \item{obj}{A objective function.}
 
-\item{X.list}{A list that must have the names, x (for the point), fx (for the value of the function in x), dfx (for the
-value of the gradiente in x), as the example \cr
-\code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr}
+\item{X.list}{A list that must have the names, X (for the point), F(x) (for the value of the function in x),
+dF(x) (for the value of the gradiente in x), as the example \cr
+\code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr}
 
 \item{searchD}{A search direction for the method.}
 

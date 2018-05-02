@@ -11,7 +11,8 @@ goldensection(phif, a = 0, b = 1, eps = 1e-06)
 
 \item{a, b}{Numbers, initial interval.}
 
-\item{eps}{A number.}
+\item{eps}{A number, a tolerance to stop the optimization when the current
+interval becomes smaller.}
 }
 \value{
 Returns the step length \code{alpha}.

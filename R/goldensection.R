@@ -6,7 +6,8 @@
 #'
 #' @param phif A univariate function.
 #' @param a,b Numbers, initial interval.
-#' @param eps A number.
+#' @param eps A number, a tolerance to stop the optimization when the current
+#' interval becomes smaller.
 #' @return Returns the step length \code{alpha}.
 #'
 #' @section About the parameter phif:

@@ -17,9 +17,9 @@ step_bracketing =, maxNI =)} \cr}
 
 \item{eps}{A number.}
 
-\item{X.list}{A list that must have the names, x (for the point), fx (for the value of the function in x),
-dfx (for the value of the gradiente in x), as the example \cr
-\code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr}
+\item{X.list}{A list that must have the names, X (for the point), F(x) (for the value of the function in x),
+dF(x) (for the value of the gradiente in x), as the example \cr
+\code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr}
 }
 \value{
 Returns a X.list in the point optimum
@@ -51,7 +51,18 @@ function).
 }
 
 \examples{
+options1 <-  list(Method = "goldensection", step_bracketing = 0.5, use_bracketing = TRUE, Eps_f = 1e-5, Eps_df = 1e-8)
+options2 <- list(use_bracketing = FALSE, rhoBacktrackting = 0.6, cBacktrackting = 1e-6, Eps = 1e-7, maxNI = 300)
+options3 <- list(Method = "quadraticinterpolation", A = 3, B = 5, use_bracketing = FALSE, maxNI = 400, Eps_f = 1e-5, Eps_df = 1e-8)
 
+f <- function{return(fx)}
+dfun <- functuib{return(dfx)}
+x <- list(X = c(1,2), `F(x)` = f(c(1,2)), `dF(x)` = dfun(c(1,2)))
+objfunctions <- list(functionObj = f, gradientObj = dfun)
+
+conjugateGradient(objfunctions, x, c(-3,2), options1)
+conjugateGradient(objfunctions, x, c(-3,2), options2)
+conjugateGradient(objfunctions, x, c(-3,2), options4)
 
 
 }

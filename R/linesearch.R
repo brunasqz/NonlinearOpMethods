@@ -7,9 +7,9 @@
 #' @param obj.list A list that must have the names, functionObj (for the objective function to be optimized),
 #' gradientObj (for the corresponding gradient function), as the example \cr
 #' \code{ objFG <- list(functionObj = f, gradientObj = df)} \cr \code{f} and \code{df} returns values.
-#' @param X.list A list that must have the names, x (for the point), fx (for the value of the function in x),
-#' dfx (for the value of the gradiente in x), as the example \cr
-#' \code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr
+#' @param X.list A list that must have the names, x (for the point), F(x) (for the value of the function in x),
+#' dF(x) (for the value of the gradiente in x), as the example \cr
+#' \code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr
 #' @param searchD A search direction for the method.
 #' @param Options.list A list as the example \cr
 #' \code{options <- list(A = , B = , Eps = ,  Method = , RhoBacktracking = , cBacktracing = , use_bracketing = ,
@@ -42,7 +42,7 @@
 #'
 #' f <- function{return(fx)}
 #' dfun <- functuib{return(dfx)}
-#' x <- list(x = c(1,2), fx = f(c(1,2)), dfx = dfun(c(1,2)))
+#' x <- list(X = c(1,2), `F(x)` = f(c(1,2)), `dF(x)` = dfun(c(1,2)))
 #' objfunctions <- list(functionObj = f, gradientObj = dfun)
 #'
 #' linesearch(objfunctions, x, c(-3,2), options1)
@@ -59,11 +59,14 @@ linesearch <- function (obj.list,
                         Options.list)
 {
   #Checking the parameters
-  checkparameters(obj.list, X.list, Options.list)
+  outcheck <- checkparameters(obj.list, X.list, Options.list)
+  obj.list <- outcheck[[1]]
+  X.list <- outcheck[[2]]
+  Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
-  x <- X.list[[1]]
+  x <- X.list$X
   eps <- Options.list$Eps
 
   #
@@ -111,7 +114,7 @@ linesearch <- function (obj.list,
   x <- x + as.numeric(alphak*searchD)
   fx <- obj(x)
   dfx <- gradient(x, obj, fx)
-  x_optimum <- list(x, fx, dfx)
+  x_optimum <- list(X = x, `F(x)` = fx, `dF(x)` = dfx)
 
   return(list(x_optimum, alphak))
 }

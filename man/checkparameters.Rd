@@ -27,7 +27,7 @@ but the user can have a greater control of the operation of the code, if desired
 \item A and B (numbers), used in function \code{linesearch}
 \item Method ("quadraticinterpolation" or "goldensection"), used in function \code{linesearch}
 \item rhoBacktracking e cBacktracking, used in function \code{linesearch}
-\item Eps, epsilon = error tolerance, default = 1e-6
+\item Eps, epsilon, error tolerance, default = 1e-6
 \item Eps_f for the functions \code{stopping_conditions}, \code{quasiNewton} and \code{conjugateGradient}
 \item Eps_df for the functions \code{stopping_conditions}, \code{quasiNewton} and \code{conjugateGradient}
 \item maxNI maximum number iterations for the functions \code{stopping_conditions}, \code{quasiNewton} and
@@ -35,6 +35,3 @@ but the user can have a greater control of the operation of the code, if desired
 }
 }
 
-\examples{
- In \\code{linesearch}
-}

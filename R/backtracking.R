@@ -7,9 +7,9 @@
 #' and \code{c = 1e-4}.
 #'
 #' @param obj A objective function.
-#' @param X.list A list that must have the names, x (for the point), fx (for the value of the function in x), dfx (for the
-#' value of the gradiente in x), as the example \cr
-#' \code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr
+#' @param X.list A list that must have the names, X (for the point), F(x) (for the value of the function in x),
+#' dF(x) (for the value of the gradiente in x), as the example \cr
+#' \code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr
 #' @param searchD A search direction for the method.
 #' @param rho A number, control parameter.
 #' @param c A number, control parameter.
@@ -33,9 +33,9 @@
 backtracking <- function(obj, X.list, searchD, rho = 0.5, c = 1e-4)
 {
   alpha <- 1
-  x <- X.list[[1]]
-  fx <- X.list[[2]]
-  dfx <- X.list[[3]]
+  x <- X.list$X
+  fx <- X.list$`F(x)`
+  dfx <- X.list$`dF(x)`
 
 
   k <- alpha * searchD
