@@ -4,15 +4,10 @@
 \alias{backtracking}
 \title{Backtracking line search.}
 \usage{
-backtracking(f, X.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-04)
+backtracking(f, x.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-04)
 }
 \arguments{
 \item{f}{The objective function.}
-
-\item{X.list}{A list with the current solution. It must have the names \cr
-x: a vector with its value in the search space \cr
-fx: a scalar with its objective value \cr
-dfx: a vector with its gradient value \cr}
 
 \item{searchD}{A search direction for the method.}
 
@@ -22,6 +17,11 @@ methods.}
 \item{rho}{A constant to reduce alpha in each iteration, control parameter.}
 
 \item{c}{A small constant, control parameter.}
+
+\item{X.list}{A list with the current solution. It must have the names \cr
+x: a vector with its value in the search space \cr
+fx: a scalar with its objective value \cr
+dfx: a vector with its gradient value \cr}
 }
 \value{
 Returns the step length \code{alpha} that provides a reasonable
@@ -42,7 +42,7 @@ is satisfied:
 \code{f(x + alpha*s) <= f(x) + c*alpha*(t(df(x))*s)}
 
 wherein \code{c} is a small constant (set to \code{c = 1e-4} here) and
-\code{df(x)} is the gradient computed at the starting point \code{x}.
+\code{df(x)} is the gradient computed at the starting point \code{x}.0
 }
 \examples{
 # A quadratic translated function and its gradient

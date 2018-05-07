@@ -28,7 +28,7 @@
 #' \code{f(x + alpha*s) <= f(x) + c*alpha*(t(df(x))*s)}
 #'
 #' wherein \code{c} is a small constant (set to \code{c = 1e-4} here) and
-#' \code{df(x)} is the gradient computed at the starting point \code{x}.
+#' \code{df(x)} is the gradient computed at the starting point \code{x}.0
 #'
 #'
 #' @examples
@@ -63,12 +63,11 @@
 #' }
 #' @export
 
-
-backtracking <- function(f, X.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-4)
+backtracking <- function(f, x.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-4)
 {
-  x <- X.list$x
-  fx <- X.list$fx
-  dfx <- X.list$dfx
+  x <- x.list$x
+  fx <- x.list$fx
+  dfx <- x.list$dfx
 
   alpha <- alpha0 #initial alpha
   sdfx <- sum(dfx * searchD) #dot product between dfx and searchD
