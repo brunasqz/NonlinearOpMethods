@@ -4,35 +4,70 @@
 \alias{backtracking}
 \title{Backtracking line search.}
 \usage{
-backtracking(obj, X.list, searchD, rho = 0.5, c = 1e-04)
+backtracking(f, X.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-04)
 }
 \arguments{
-\item{obj}{A objective function.}
+\item{f}{The objective function.}
 
-\item{X.list}{A list that must have the names, X (for the point), F(x) (for the value of the function in x),
-dF(x) (for the value of the gradiente in x), as the example \cr
-\code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr}
+\item{X.list}{A list with the current solution. It must have the names \cr
+x: a vector with its value in the search space \cr
+fx: a scalar with its objective value \cr
+dfx: a vector with its gradient value \cr}
 
 \item{searchD}{A search direction for the method.}
 
-\item{rho}{A number, control parameter.}
+\item{alpha0}{Initial step size, usually set to 1 in most Newton-based
+methods.}
 
-\item{c}{A number, control parameter.}
+\item{rho}{A constant to reduce alpha in each iteration, control parameter.}
+
+\item{c}{A small constant, control parameter.}
 }
 \value{
-Returns the step length \code{alpha} for the univariate function.
+Returns the step length \code{alpha} that provides a reasonable
+decrease in function value.
 }
 \description{
-\code{backtracking} is a line search method to determine a step length that minimize the function
-in a given search direction. The method starts with a \code{alpha = 1} and iteratively modify it.
-Based on the book "Numerical Optimization", Jorge Nocedal, for ensure that the algorithm makes reasonable progress along
-in the given search direction, is used the control parameters with a default value, \code{rho = 0.5}
-and \code{c = 1e-4}.
+\code{backtracking} is an approximate line search method to determine a step
+length that makes a reasonable reduction in function value in a given search
+direction.
+}
+\details{
+The idea is, given a starting point \code{x} and a descent direction
+\code{s}, the minimization of \code{f(x + alpha*s)} proceeds by setting
+\code{alpha = 1} (or another value if provided) and iteratively reducing it
+by a factor \code{rho} (set to 0.5 as default) until the following condition
+is satisfied:
+
+\code{f(x + alpha*s) <= f(x) + c*alpha*(t(df(x))*s)}
+
+wherein \code{c} is a small constant (set to \code{c = 1e-4} here) and
+\code{df(x)} is the gradient computed at the starting point \code{x}.
 }
 \examples{
-f <- function(x) {... return(x)}
-backtracking(f, x_example, c(1,-2))
-backtracking(f, x_example, searchD = c(1,-2), rho = 0.1, c = 1e-6)
+# A quadratic translated function and its gradient
+f <- function (x)
+{
+ i <- seq(1, length(x))
+ return (sum( (x - i)^2 ))
+}
+df <- function(x)
+{
+  i <- seq(1, length(x))
+  return (2*(x - i))
+}
+# Get the current point in the form of a list
+x <- c(0,1,0,1) #current point
+X.list <- list(x = x, fx = f(x), dfx = df(x))
+searchD <- -df(x) #search direction (negative of the gradient, for instance)
+# Backtracking with default parameters
+alpha.opt <- backtracking(f, X.list, searchD)
+print(f(x + alpha.opt*searchD)) #optimum by coincidence
+# If rho were set to, say, 0.6 instead, the result would be
+alpha.opt2 <- backtracking(f, X.list, searchD)
+# Which is not the optimum in this case, but already smaller than the initial
+# solution x
+print(f(x + alpha.opt2*searchD))
 
 }
 \references{
