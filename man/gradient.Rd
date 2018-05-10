@@ -4,29 +4,42 @@
 \alias{gradient}
 \title{Gradient by the numerical approximation}
 \usage{
-gradient(x, f, fx = NULL, eps = 1e-04)
+gradient(f, x, fx = NULL, dx = 1e-06, method = c("ffd", "cfd"))
 }
 \arguments{
-\item{x}{A point (number or vector).}
+\item{f}{A function, representing the objective function.}
 
-\item{f}{A objective function.}
+\item{x}{A number or vector with length n, indicating the current point.}
 
-\item{fx}{A number, the value of function in x.}
+\item{fx}{A number, the objective value calculated at x.}
 
-\item{eps}{A number, for calculating the gradient.}
+\item{dx}{A number, the small perturbation in x.}
+
+\item{method}{character string, specifying the discretization method.
+"ffd": Forward finite differences. Requires n+1 evaluations (or n if fx is provided)
+"cfd": Central (or Symmetrical) finite differences. Requires 2n evaluations (fx is not used)}
 }
 \value{
-g the numerical approximation of the gradient.
+df the numerical approximation of the gradient.
 }
 \description{
-\code{gradient} is a function based on the algorithm of numerical differentiation for estimating  the gradient
+\code{gradient} is a function based on the algorithm of numerical differentiation for estimating the gradient
 using finite difference approximations.
 }
 \examples{
-f <- functios(x) {... return x}
-x1 <- c(2,2)
-gradient(x1, f)
-gradiente(x1, f, fx = f(x1), eps = 1e-3)
+f <- function(x) {return ( sum(x^2) )}
+df_analytical <- function (x) {return (2*x)}
+x <- c(1,1) #current point
+gradient(f, x) #uses ffd by default
+gradient(f, x, method = "cfd")
+df_analytical(x)
+
+x <- seq(1,100)
+dfx_analytical <- df_analytical(x)
+dfx_ffd <- gradient(f, x, method = "ffd")
+dfx_cfd <- gradient(f, x, method = "cfd")
+norm(dfx_analytical - dfx_ffd, type = "2") #error in the FFD approximation
+norm(dfx_analytical - dfx_cfd, type = "2") #error in the CFD approximation
 
 }
 \references{

@@ -4,37 +4,86 @@
 \alias{bracketing}
 \title{Bracketing.}
 \usage{
-bracketing(phi_f, sstep = 0.05, alpha1 = 0)
+bracketing(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2,
+  kmax = 50)
 }
 \arguments{
-\item{sstep}{A number, the sstep defines whether the search will be in a positive or negative direction.}
+\item{phi}{A univariate function.}
 
-\item{alpha1}{A number, the initial point.}
+\item{alpha0}{A number, starting point.}
 
-\item{phif}{A univariate function.}
+\item{phi0}{A number, objective value of \code{alpha0}.}
+
+\item{sstep}{A number with the step to increase alpha0 until a bracket is
+determined. It can accept positive or negative values, see below.}
+
+\item{t}{Multiplicator factor to increase sstep in each iteration. If
+\code{t > 1}, an accelerated search is performed. Use \code{t = 1} for the
+fixed step version.}
+
+\item{kmax}{Maximum number of iterations. It can be used to determine
+degenerate problems with no finite minimum, when the bracket does not exist.}
 }
 \value{
-Returns a range in the format of a list.
+Returns a bracket in the format of a list. These intervals can be
+used in other interval halving methods, such as the goldensection.
 }
 \description{
-\code{bracketing} is a function that searches for some restricted range that can have the
-minimum point between the two values of a unimodal function. For this implementation,
-the initial point have a default value (\code{alpha = 0}) and a fixed step size for move
-in a favorable direction. In addition, the algorithm was based on the search with accelerated
-step size, that consists of doubling the step size as long as the move results in an improvement
-of the objective function.
+\code{bracketing} is a function that determines a range (bracket)
+\code{[a, b]} of values where a univariate function has possibly a local
+minimum. This function is able to implement an accelerated search.
 }
-\section{About the parameter phif}{
+\details{
+Given a starting point \code{alpha0}, the bracketing process follows: \cr
+1. Set \code{alpha1 <- alpha0} and \code{alpha2 <- alpha1 + sstep} \cr
+2. While the function is decreasing in this direction, keep increasing alpha1
+and alpha2, that is, Repeat the following until
+\code{phi(alpha2) > phi(alpha1)}: \cr
+ 2.1 Set sstep <- t*sstep \cr
+ 2.2 Set alpha0 <- alpha1 \cr
+ 2.3 Set alpha1 <- alpha2 \cr
+ 2.3 Set alpha2 <- alpha1 + sstep \cr
+In the end, either \code{[alpha1, alpha2]} or \code{[alpha0, alpha2]} can be
+chosen as bracket. The latter was preferred here for safety purposes. Also,
+notice that the method here can employ an accelerated search by setting
+\code{t > 1}, in which the step of alpha increases in each iteration.
+}
+\section{About the parameter sstep}{
 
-\code{phif} should be a univariate function that returns the value of the function
-at a given point.
+If \code{phi} comes from \code{phi(alpha) := f(x + alpha*s)} for a given
+point \code{x} and a \emph{descent} direction \code{s}, then \code{sstep > 0}
+will correctly yield a descent direction in the univariate version. For
+general single-variable functions, the option \code{sstep < 0} is left to
+handle specific situations, as shown in the examples.
 }
 
 \examples{
-phi <- function(alpha) {...}
-bracketing(phi)
-bracketing(phi, -0.5)
-bracketing(phi, sstep = -0.5, alpha1 = 3)
+# A univariate function
+phi <- function(alpha)
+{
+  return (alpha^5 - 5*alpha^3 - 20*alpha + 5)
+}
+# Plot the function for convenience over the interval [-5,5]
+plot(phi, -5, 5)
+# In the inverval [0,5], it has a minimum in alpha = 2. Starting from
+# alpha0 = 0, for instance, the following bracket is obtained
+bracket <- bracketing(phi, alpha0 = 0) #(0.75, 3.15), containing 2
+# If phi0 = phi(alpha0) = 5 is provided, the results are the same, but the
+# number of evaluations is reduced by one
+bracket <- bracketing(phi, alpha0 = 0, phi0 = 2)
+# Setting t = 1 (fixed step size) generates a smaller interval, but increases
+# the number of evaluations considerably
+bracket <- bracketing(phi, alpha0 = 0, t = 1) #(1.95, 2.05)
+# Starting from alpha0 = 4, only one iteration is executed because phi is
+# increasing in this direction (the optimum is actually at 4)
+bracket <- bracketing(phi, alpha0 = 4, sstep = 0.05) #(4, 4.05)
+# However, changing the sign of sstep yields a correct bracketing of the
+# true minimum.
+bracket <- bracketing(phi, alpha0 = 4, sstep = -0.05) #(0.85, 3.25)
+# Finally, from -4 to the left this function has no finite minimum, and thus
+# the algorithm goes until the total iterations are run. This is an indicator
+# of a problem with no minimum.
+bracket <- bracketing(phi, alpha0 = -4, sstep = -0.05)#'
 
 }
 \references{
@@ -44,5 +93,6 @@ bracketing(phi, sstep = -0.5, alpha1 = 3)
 }
 }
 \seealso{
-The documentation of the function \code{univariate_f} in this package.
+The documentation of the functions \code{univariate_f} and
+\code{goldensection} in this package.
 }
