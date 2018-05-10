@@ -7,30 +7,23 @@
 #' @param obj.list A list that must have the names, functionObj (for the objective function to be optimized),
 #' gradientObj (for the corresponding gradient function), as the example \cr
 #' \code{ objFG <- list(functionObj = f, gradientObj = df)} \cr \code{f} and \code{df} returns values.
-#' @param X.list A list that must have the names, x (for the point), F(x) (for the value of the function in x),
-#' dF(x) (for the value of the gradiente in x), as the example \cr
-#' \code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr
+#' @param x.list A list with the current solution. It must have the names \cr
+#'   x: a vector with its value in the search space \cr
+#'   fx: a scalar with its objective value \cr
+#'   dfx: a vector with its gradient value \cr
 #' @param searchD A search direction for the method.
-#' @param Options.list A list as the example \cr
-#' \code{options <- list(A = , B = , Eps = ,  Method = , RhoBacktracking = , cBacktracing = , use_bracketing = ,
-#' step_bracketing =)} \cr
-#'
-#' @return Returns a list that contains a \code{X.list} in the point optimum and the step length \code{alpha}
-#' for the univariate function
-#'
-#' @section Options.list:
-#' In this function, Options.list may contain the following names:
-#' \itemize{
-#' \item use_bracketing = TRUE or FALSE, for determine whether bracketing should be used when choosing the
+#' @param method A character string, in format "quadraticinterpolation" or "goldensection", if its NULL,
+#' by default, the method used is backtracking.
+#' @param rhoD A number, control variable in backtracking.
+#' @param cB A number, control variable in backtracking.
+#' @param use_b A boolean, for determine whether bracketing should be used when choosing the
 #' interval for search.
-#' \item step_bracketing, for determine the step length in bracketing; if use_bracketing = TRUE, step_bracketing
+#' @param step_b  A numver for determine the step length in bracketing; if use_b = TRUE, step_b
 #' must have a value.
-#' \item A e B (numbers), user-determined search interval; default A = 0 and B = 1.
-#' \item Method (a character string), in format "quadraticinterpolation" or "goldensection", if its NULL or not
-#' passed, by default, the method used is backtracking.
-#' \item rhoBacktracking and cBacktracking (numbers), control variables in backtracking.
-#' \item Eps, epsilon = error tolerance, default = 1e-6
-#' }
+#' @param eps, epsilon = error tolerance, default = 1e-6
+#'
+#' @return Returns a list that contains a \code{x.list} in the point optimum and the step length \code{alpha}
+#' for the univariate function
 #'
 #' @seealso The documentations of fuctions \code{backtracking}, \code{bracketing}, \code{quadraticinterpolation}
 #' and \code{goldensection} in this package.
@@ -42,68 +35,57 @@
 #'
 #' f <- function{return(fx)}
 #' dfun <- functuib{return(dfx)}
-#' x <- list(X = c(1,2), `F(x)` = f(c(1,2)), `dF(x)` = dfun(c(1,2)))
+#' x <- list(x = c(1,2), fx = f(c(1,2)), dfx = dfun(c(1,2)))
 #' objfunctions <- list(functionObj = f, gradientObj = dfun)
 #'
-#' linesearch(objfunctions, x, c(-3,2), options1)
-#' linesearch(objfunctions, x, c(-3,2), options2)
-#' linesearch(objfunctions, x, c(-3,2), options4)
+#' linesearch(objfunctions, x, c(-3,2), method = "goldensection", step_b = 0.5, use_b= TRUE)
+#' linesearch(objfunctions, x, c(-3,2), use_b = FALSE, rhoB = 0.6, cB= 1e-6, eps = 1e-7)
+#' linesearch(objfunctions, x, c(-3,2), method = "quadraticinterpolation", use_b = FALSE)
 #'
 #'
 #' @export
 
 
-linesearch <- function (obj.list,
-                        X.list,
-                        searchD,
-                        Options.list)
+linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB = 1e-4, use_b = FALSE, step_b = 0.05, eps = 1e-6)
 {
   #Checking the parameters
-  outcheck <- checkparameters(obj.list, X.list, Options.list)
+  outcheck <- checkparameters(obj.list, x.list, Options.list)
   obj.list <- outcheck[[1]]
-  X.list <- outcheck[[2]]
+  x.list <- outcheck[[2]]
   Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
-  x <- X.list$X
+  x <- x.list$x
   eps <- Options.list$Eps
 
   #
   phi_fk <- univariate_f(obj, x, searchD)
 
-  if((!("Method") %in% names(Options.list)) | is.null(Options.list$Method)) {
-
-    rhoD <- Options.list$RhoBacktracking
-    cB <- Options.list$cBacktracking
+  if(is.null(method)) {
 
     #Backtracking - linear function default
-    alphak <- backtracking(obj, X.list, searchD, rhoD, cB)
+    alphak <- backtracking(obj, x.list, searchD, rhoD, cB)
 
   } else {
 
-    if((!("use_bracketing") %in% names(Options.list)) & (!("step_bracketing") %in% names(Options.list))) {
-      a <- 0; b <- 1
-    } else {
-
-      if(identical(Options.list$use_bracketing, FALSE)) {
+      if(identical(use_b, FALSE)) {
         a <- 0; b <- 1
       } else {
-        step_b <- Options.list$step_bracketing
-        results <- bracketing(phi_fk, step_b)
+
+        results <- bracketing(phi = phi_fk, sstep = step_b)
 
         a <- results[[1]]
         b <- results[[2]]
       }
-    }
 
     # ----- Use the parameters entered by the to calculate alpha -----#
 
-    if(Options.list$Method == "goldensection") {
+    if(identical(method,"goldensection")) {
 
       alphak <- goldensection(phi_fk, a, b, eps)
 
-    } else if(Options.list$Method == "quadraticinterpolation") {
+    } else if(identical(method, "quadraticinterpolation")) {
 
       alphak <- quadraticinterpolation(phi_fk, a, b, eps)
 
@@ -114,7 +96,7 @@ linesearch <- function (obj.list,
   x <- x + as.numeric(alphak*searchD)
   fx <- obj(x)
   dfx <- gradient(x, obj, fx)
-  x_optimum <- list(X = x, `F(x)` = fx, `dF(x)` = dfx)
+  x_optimum <- list(x = x, fx = fx, dfx = dfx)
 
   return(list(x_optimum, alphak))
 }
