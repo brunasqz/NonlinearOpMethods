@@ -79,7 +79,7 @@
 #' @export
 
 
-bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, kmax = 50)
+bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.bracket = 50)
 {
   ncf <- 0 #number of function evaluations
 
@@ -98,7 +98,7 @@ bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, kmax =
 
   # Use a for loop to limit the number of evaluations, specially if the function
   # an infinite minimum
-  for (k in 1:kmax)
+  for (k in 1:maxNI.bracket)
   {
     if (phi2 > phi1)
     {

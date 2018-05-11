@@ -53,7 +53,7 @@
 #' }
 #' @export
 
-goldensection <- function(phi, a = 0, b = 1, eps = 1e-6)
+goldensection <- function(phi, a = 0, b = 1, eps.alpha = 1e-6)
 {
   gr <- (sqrt(5) - 1)/2 #golden ratio
 
@@ -64,7 +64,7 @@ goldensection <- function(phi, a = 0, b = 1, eps = 1e-6)
   phi.b <- phi(alpha.b)
   ncf <- 2 #number of function evaluations
 
-  while ((b - a) > eps)
+  while ((b - a) > eps.alpha)
   {
     if(phi.b < phi.a){
       a <- alpha.a

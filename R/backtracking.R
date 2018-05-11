@@ -5,7 +5,7 @@
 #' direction.
 #'
 #' @param f The objective function.
-#' @param X.list A list with the current solution. It must have the names \cr
+#' @param x.list A list with the current solution. It must have the names \cr
 #'   x: a vector with its value in the search space \cr
 #'   fx: a scalar with its objective value \cr
 #'   dfx: a vector with its gradient value \cr

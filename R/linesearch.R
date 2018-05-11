@@ -46,13 +46,12 @@
 #' @export
 
 
-linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB = 1e-4, use_b = FALSE, step_b = 0.05, eps = 1e-6)
+linesearch <- function (obj.list, x.list, searchD, method = NULL, use.bracketing = FALSE, ...)
 {
   #Checking the parameters
-  outcheck <- checkparameters(obj.list, x.list, Options.list)
+  outcheck <- checkparameters(obj.list, x.list)
   obj.list <- outcheck[[1]]
   x.list <- outcheck[[2]]
-  Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
@@ -60,20 +59,20 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB
   eps <- Options.list$Eps
 
   #
-  phi_fk <- univariate_f(obj, x, searchD)
+  phi.fk <- univariate_f(obj, x, searchD)
 
   if(is.null(method)) {
 
     #Backtracking - linear function default
-    alphak <- backtracking(obj, x.list, searchD, rhoD, cB)
+    alphak <- backtracking(obj, x.list, searchD, ...)
 
   } else {
 
-      if(identical(use_b, FALSE)) {
+      if(identical(use.bracketing, FALSE)) {
         a <- 0; b <- 1
       } else {
 
-        results <- bracketing(phi = phi_fk, sstep = step_b)
+        results <- bracketing(phi = phi.fk, ...)
 
         a <- results[[1]]
         b <- results[[2]]
@@ -83,21 +82,21 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB
 
     if(identical(method,"goldensection")) {
 
-      alphak <- goldensection(phi_fk, a, b, eps)
+      alphak <- goldensection(phi.fk, a.list, b.list, eps)
 
     } else if(identical(method, "quadraticinterpolation")) {
 
-      alphak <- quadraticinterpolation(phi_fk, a, b, eps)
+      alphak <- quadraticinterpolation(phi.fk, a, b, eps)
 
     }
   }
 
-  #finds x
+  #Finds x
   x <- x + as.numeric(alphak*searchD)
   fx <- obj(x)
   dfx <- gradient(x, obj, fx)
-  x_optimum <- list(x = x, fx = fx, dfx = dfx)
+  x.optimum <- list(x = x, fx = fx, dfx = dfx)
 
-  return(list(x_optimum, alphak))
+  return(list(x.optimum, alphak))
 }
 
