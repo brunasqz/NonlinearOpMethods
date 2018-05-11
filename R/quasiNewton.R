@@ -57,7 +57,7 @@
 #' }
 #' @export
 
-quasiNewton <- function(obj.list, x.list, Options.list){
+quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, ...){
   #Checking the parameters
   outcheck <- checkparameters(obj.list, x.list, Options.list)
   obj.list <- outcheck[[1]]
@@ -85,7 +85,7 @@ quasiNewton <- function(obj.list, x.list, Options.list){
     searchD <- as.numeric(-hesI %*% dfx_k)
 
     #Linesearch
-    out <- linesearch(obj.list, x_k, searchD, Options.list)
+    out <- linesearch(obj.list, x_k, ...)
     x_k1 <- out[[1]] #list
     alpha <- out[[2]] #numeric
 
