@@ -33,7 +33,7 @@
 #' @export
 
 
-quadraticinterpolation <- function(phi_f, l = 0, u = 1, eps = 1e-6)
+quadraticinterpolation <- function(phi.f, l = 0, u = 1, eps = 1e-6)
 {
   #polynomials evaluated at 3 points(l, m, u) for interpolation: phi_fl, phi_fm, phi_fu
   if(l == u)
@@ -41,19 +41,19 @@ quadraticinterpolation <- function(phi_f, l = 0, u = 1, eps = 1e-6)
     l <- 0
   }
   m <- (l + u)/2
-  phi_fl <- phi_f(l)
-  phi_fm <- phi_f(m)
-  phi_fu <- phi_f(u)
+  phi.fl <- phi.f(l)
+  phi.fm <- phi.f(m)
+  phi.fu <- phi.f(u)
 
 
   #a, b and c are coefficients of the polynomial (hx)
   y <- ((l - m)*(m - u)*(u - l))
-  a <- (phi_fl*m*u*(u - m) + phi_fm*u*l*(l - u) + phi_fu*l*m*(m - l))/y
-  b <- (phi_fl*(m^2 - u^2) + phi_fm*(u^2 - l^2) + phi_fu*(l^2 - m^2))/y
-  c <- -(phi_fl*(m - u) + phi_fm*(u - l) + phi_fu*(l - m))/y
+  a <- (phi.fl*m*u*(u - m) + phi.fm*u*l*(l - u) + phi.fu*l*m*(m - l))/y
+  b <- (phi.fl*(m^2 - u^2) + phi.fm*(u^2 - l^2) + phi.fu*(l^2 - m^2))/y
+  c <- -(phi.fl*(m - u) + phi.fm*(u - l) + phi.fu*(l - m))/y
 
   alpha <- -b/(2*c)
-  falpha <- phi_f(alpha)
+  falpha <- phi.f(alpha)
 
   ncf <- 4
 
@@ -64,18 +64,18 @@ quadraticinterpolation <- function(phi_f, l = 0, u = 1, eps = 1e-6)
     #choice of l, m and C new values
     if(alpha <= m)
     {
-      if(phi_fm >= falpha){
-        u <- m; phi_fu <- phi_fm
-        m <- alpha; phi_fm <- falpha
+      if(phi.fm >= falpha){
+        u <- m; phi.fu <- phi.fm
+        m <- alpha; phi.fm <- falpha
       }else{
-        l <- alpha; phi_fl <- falpha
+        l <- alpha; phi.fl <- falpha
       }
     }else{
-      if(phi_fm >= falpha){
-        l <- m; phi_fl <- phi_fm
-        m <- alpha; phi_fm <- falpha
+      if(phi.fm >= falpha){
+        l <- m; phi.fl <- phi.fm
+        m <- alpha; phi.fm <- falpha
       }else{
-        u <- alpha; phi_fu <- falpha
+        u <- alpha; phi.fu <- falpha
       }
 
     }
@@ -83,14 +83,14 @@ quadraticinterpolation <- function(phi_f, l = 0, u = 1, eps = 1e-6)
 
     #refitting the function
     y <- ((l - m)*(m - u)*(u - l))
-    a <- (phi_fl*m*u*(u - m) + phi_fm*u*l*(l - u) + phi_fu*l*m*(m - l))/y
-    b <- (phi_fl*(m^2 - u^2) + phi_fm*(u^2 - l^2) + phi_fu*(l^2 - m^2))/y
-    c <- -(phi_fl*(m - u) + phi_fm*(u - l) + phi_fu*(l - m))/y
+    a <- (phi.fl*m*u*(u - m) + phi.fm*u*l*(l - u) + phi.fu*l*m*(m - l))/y
+    b <- (phi.fl*(m^2 - u^2) + phi.fm*(u^2 - l^2) + phi.fu*(l^2 - m^2))/y
+    c <- -(phi.fl*(m - u) + phi.fm*(u - l) + phi.fu*(l - m))/y
 
     #quadratic interpolation
 
     alpha <- -b/(2*c)
-    falpha <- phi_f(alpha)
+    falpha <- phi.f(alpha)
     ncf <- ncf + 1
 
   }

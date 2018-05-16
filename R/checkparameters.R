@@ -22,7 +22,9 @@
 #'
 #' @param Options.list A list
 #' @return Returns a complete Options.list with default values.
-
+#' @section To do:
+#' Modify the documentation, remove comments
+#'
 
 
 # Options.list <- list( A = NULL, B = NULL, maxNI, Eps, Eps_df, Eps_f, Method, RhoBacktracking, cBacktracing, use_bracketing, step_bracketing)

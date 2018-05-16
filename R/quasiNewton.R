@@ -8,9 +8,10 @@
 #' @param obj.list A list that must have the names, functionObj (for the objective function to be optimized),
 #' gradientObj (for the corresponding gradient function), as the example \cr
 #' \code{ objFG <- list(functionObj = f, gradientObj = df)} \cr \code{f} and \code{df} returns values.
-#' @param X.list A list that must have the names, x (for the point), F(x) (for the value of the function in x),
-#' dF(x) (for the value of the gradiente in x), as the example \cr
-#' \code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr
+#' @param x.list A list with the current solution. It must have the names \cr
+#'   x: a vector with its value in the search space \cr
+#'   fx: a scalar with its objective value \cr
+#'   dfx: a vector with its gradient value \cr
 #' @param Options.list A list as the example \cr
 #' \code{options <- list(A = , B = , Eps = ,  Method = , RhoBacktracking = , cBacktracing = , use_bracketing = ,
 #' step_bracketing =, maxNI =)} \cr
@@ -41,7 +42,7 @@
 #'
 #' f <- function{return(fx)}
 #' dfun <- functuib{return(dfx)}
-#' x <- list(X = c(1,2), `F(x)` = f(c(1,2)), `dF(x)` = dfun(c(1,2)))
+#' x <- list(x = c(1,2), fx = f(c(1,2)), dfx = dfun(c(1,2)))
 #' objfunctions <- list(functionObj = f, gradientObj = dfun)
 #'
 #' quasiNewton(objfunctions, x, c(-3,2), options1)
@@ -57,55 +58,53 @@
 #' }
 #' @export
 
-quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, ...){
+quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, ...){
   #Checking the parameters
-  outcheck <- checkparameters(obj.list, x.list, Options.list)
+  outcheck <- checkparameters(obj.list, x.list)
   obj.list <- outcheck[[1]]
   x.list <- outcheck[[2]]
-  Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
   dFun <- obj.list$gradientObj
 
-  x_k1 <- x.list
-  dfx_k1 <- x.list$`dF(x)`
+  x.k1 <- x.list
+  dfx.k1 <- x.list$dfx
 
-  eps <- Options.list$Eps
 
   #--------Quasi-Newton Method--------------#
 
-  hesI <- diag(length(x.list$X))
+  hesI <- diag(length(x.list$x))
 
-  for (k in 1:(Options.list$maxNI)){
+  for (k in 1:maxNI){
 
-    dfx_k <- dfx_k1
-    x_k <- x_k1
+    dfx.k <- dfx.k1
+    x.k <- x.k1
 
-    searchD <- as.numeric(-hesI %*% dfx_k)
+    searchD <- as.numeric(-hesI %*% dfx.k)
 
     #Linesearch
-    out <- linesearch(obj.list, x_k, ...)
-    x_k1 <- out[[1]] #list
+    out <- linesearch(obj.list, x.k, searchD, ...)
+    x.k1 <- out[[1]] #list
     alpha <- out[[2]] #numeric
 
     #Gradient in the new point
-    dfx_k1 <- dFun(x_k1$X, obj)
+    dfx.k1 <- dFun(x.k1$x, obj)
 
     #BFGS constants
-    v <- x_k$X - x_k1$X
-    r <- dfx_k - dfx_k1
+    v <- x.k$x - x.k1$x
+    r <- dfx.k - dfx.k1
 
     C <- bfgs(r, v, hesI)
 
     #Hessian new value
     hesI <- hesI + C
 
-    if (identical(stopping_condition(x_k1, x_k, Options.list), TRUE))
+    if (identical(stopping_condition(x.k1, x.k), TRUE)) #default eps.df or eps.f?
     {
       break
     }
   }
-  x_k1
 
+  return(x.k1)
 }

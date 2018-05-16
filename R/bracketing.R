@@ -69,7 +69,7 @@
 #' # Finally, from -4 to the left this function has no finite minimum, and thus
 #' # the algorithm goes until the total iterations are run. This is an indicator
 #' # of a problem with no minimum.
-#' bracket <- bracketing(phi, alpha0 = -4, sstep = -0.05)#'
+#' bracket <- bracketing(phi, alpha0 = -4, sstep = -0.05)
 #'
 #' @references
 #' \enumerate{
@@ -79,7 +79,7 @@
 #' @export
 
 
-bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.bracket = 50)
+bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.bracket = 50, ...)
 {
   ncf <- 0 #number of function evaluations
 

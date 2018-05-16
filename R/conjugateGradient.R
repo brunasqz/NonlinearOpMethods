@@ -8,9 +8,10 @@
 #' @param obj.list A list that must have the names, functionObj (for the objective function to be optimized),
 #' gradientObj (for the corresponding gradient function), as the example \cr
 #' \code{ objFG <- list(functionObj = f, gradientObj = df)} \cr \code{f} and \code{df} returns values.
-#' @param X.list A list that must have the names, X (for the point), F(x) (for the value of the function in x),
-#' dF(x) (for the value of the gradiente in x), as the example \cr
-#' \code{x_example <- list(X = c(1,1), `F(x)` = 12, `dF(x)` = c(-1, 2))}. \cr
+#' @param x.list A list with the current solution. It must have the names \cr
+#'   x: a vector with its value in the search space \cr
+#'   fx: a scalar with its objective value \cr
+#'   dfx: a vector with its gradient value \cr
 #' @param Options.list A list as the example \cr
 #' \code{options <- list(A = , B = , Eps = ,  Method = , RhoBacktracking = , cBacktracing = , use_bracketing = ,
 #' step_bracketing =, maxNI =)} \cr
@@ -58,43 +59,46 @@
 #' \emph{Notas de aula de Otimizacao}, pages 6:9.
 #' \item Wikipedia, \emph{Conjugate Gradient Method}, \url{https://en.wikipedia.org/wiki/Conjugate_gradient_method}.
 #' }
+#'
+#' @section To do:
+#' Modify the documentation, remove comments (options.list)
 #' @export
 
-conjugateGradient <- function(obj.list, x.list, Options.list, eps = 1e-4) {
+conjugateGradient <- function(obj.list, x.list, eps = 1e-4, ...) {
   #Checking parameters
-  outcheck <- checkparameters(obj.list, x.list, Options.list)
+  outcheck <- checkparameters(obj.list, x.list)
   obj.list <- outcheck[[1]]
   x.list <- outcheck[[2]]
-  Options.list <- outcheck[[3]]
+  #Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
   dFun <- obj.list$gradientObj
 
-  dfx_k1 <- x.list$`dF(x)`
-  x_k1 <- x.list
+  dfx.k1 <- x.list$dfx
+  x.k1 <- x.list
 
   #---------Conjugate Gradient----------------#
-  searchD_k1 <- -dfx_k1
+  searchD.k1 <- -dfx.k1
 
 
   for(k in 1:(Options.list$maxNI)) {
-    dfx_k <- dfx_k1
-    x_k <- x_k1
-    searchD_k <- searchD_k1
+    dfx.k <- dfx.k1
+    x.k <- x.k1
+    searchD.k <- searchD.k1
 
     #Linesearch
-    out <- linesearch(obj.list, x_k, searchD_k, Options.list)
-    x_k1 <- out[[1]]
+    out <- linesearch(obj.list, x.k, searchD.k, ...)
+    x.k1 <- out[[1]]
     alpha <- out[[2]]
 
-    dfx_k1 <- dFun(x_k1$X, obj)
-    searchD_k1 <- -dfx_k1 + as.numeric(abs(searchD_k1) ^2 / abs(searchD_k)^2) * searchD_k
+    dfx.k1 <- dFun(x.k1$x, obj)
+    searchD.k1 <- -dfx.k1 + as.numeric(abs(searchD.k1) ^2 / abs(searchD.k)^2) * searchD.k
 
-    if (identical(stopping_condition(x_k1, x_k, Options.list), TRUE))
+    if (identical(stopping_condition(x.k1, x.k), TRUE)) #default values for eps.df and eps.f
     {
       break
     }
   }
-  return(x_k1)
+  return(x.k1)
 }

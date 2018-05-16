@@ -16,9 +16,9 @@
 #' by default, the method used is backtracking.
 #' @param rhoD A number, control variable in backtracking.
 #' @param cB A number, control variable in backtracking.
-#' @param use_b A boolean, for determine whether bracketing should be used when choosing the
+#' @param use.bracketing A boolean, for determine whether bracketing should be used when choosing the
 #' interval for search.
-#' @param step_b  A numver for determine the step length in bracketing; if use_b = TRUE, step_b
+#' @param step.bracketing  A numver for determine the step length in bracketing; if use_b = TRUE, step_b
 #' must have a value.
 #' @param eps, epsilon = error tolerance, default = 1e-6
 #'
@@ -42,11 +42,13 @@
 #' linesearch(objfunctions, x, c(-3,2), use_b = FALSE, rhoB = 0.6, cB= 1e-6, eps = 1e-7)
 #' linesearch(objfunctions, x, c(-3,2), method = "quadraticinterpolation", use_b = FALSE)
 #'
+#' @section To do:
+#' Modify the documentation, remove comments
 #'
 #' @export
 
 
-linesearch <- function (obj.list, x.list, searchD, method = NULL, use.bracketing = FALSE, ...)
+linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB = 1e-4, use.bracketing = FALSE, step.bracketing = 0.05, eps = 1e-6)
 {
   #Checking the parameters
   outcheck <- checkparameters(obj.list, x.list)
@@ -64,7 +66,7 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, use.bracketing
   if(is.null(method)) {
 
     #Backtracking - linear function default
-    alphak <- backtracking(obj, x.list, searchD, ...)
+    alphak <- backtracking(obj, x.list, searchD, rho = rhoD, c = cB)
 
   } else {
 
@@ -72,7 +74,7 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, use.bracketing
         a <- 0; b <- 1
       } else {
 
-        results <- bracketing(phi = phi.fk, ...)
+        results <- bracketing(phi = phi.fk, sstep = step.bracketing)
 
         a <- results[[1]]
         b <- results[[2]]
@@ -82,7 +84,7 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, use.bracketing
 
     if(identical(method,"goldensection")) {
 
-      alphak <- goldensection(phi.fk, a.list, b.list, eps)
+      alphak <- goldensection(phi.fk, a, b, eps)
 
     } else if(identical(method, "quadraticinterpolation")) {
 
