@@ -64,12 +64,11 @@
 #' Modify the documentation, remove comments (options.list)
 #' @export
 
-conjugateGradient <- function(obj.list, x.list, eps = 1e-4, ...) {
+conjugateGradient <- function(obj.list, x.list, eps = 1e-4, maxNI = 50, ...) {
   #Checking parameters
   outcheck <- checkparameters(obj.list, x.list)
   obj.list <- outcheck[[1]]
   x.list <- outcheck[[2]]
-  #Options.list <- outcheck[[3]]
 
   #Copy of values
   obj <- obj.list$functionObj
@@ -82,7 +81,7 @@ conjugateGradient <- function(obj.list, x.list, eps = 1e-4, ...) {
   searchD.k1 <- -dfx.k1
 
 
-  for(k in 1:(Options.list$maxNI)) {
+  for(k in 1:maxNI) {
     dfx.k <- dfx.k1
     x.k <- x.k1
     searchD.k <- searchD.k1
@@ -92,7 +91,7 @@ conjugateGradient <- function(obj.list, x.list, eps = 1e-4, ...) {
     x.k1 <- out[[1]]
     alpha <- out[[2]]
 
-    dfx.k1 <- dFun(x.k1$x, obj)
+    dfx.k1 <- dFun(obj, x.k1$x)
     searchD.k1 <- -dfx.k1 + as.numeric(abs(searchD.k1) ^2 / abs(searchD.k)^2) * searchD.k
 
     if (identical(stopping_condition(x.k1, x.k), TRUE)) #default values for eps.df and eps.f

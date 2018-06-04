@@ -58,13 +58,13 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB
   #Copy of values
   obj <- obj.list$functionObj
   x <- x.list$x
-  eps <- Options.list$Eps
+  #eps <- Options.list$Eps
 
   #
   phi.fk <- univariate_f(obj, x, searchD)
 
-  if(is.null(method)) {
 
+  if(is.null(method)) {
     #Backtracking - linear function default
     alphak <- backtracking(obj, x.list, searchD, rho = rhoD, c = cB)
 
@@ -96,7 +96,7 @@ linesearch <- function (obj.list, x.list, searchD, method = NULL, rhoD = 0.5, cB
   #Finds x
   x <- x + as.numeric(alphak*searchD)
   fx <- obj(x)
-  dfx <- gradient(x, obj, fx)
+  dfx <- gradient(f = obj,x =  x, fx =  fx)
   x.optimum <- list(x = x, fx = fx, dfx = dfx)
 
   return(list(x.optimum, alphak))

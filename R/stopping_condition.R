@@ -25,7 +25,7 @@
 stopping_condition <- function(x.k1, x.k, eps.f = 1e-9, eps.df = 1e-8){ #eps_f eps_df in Options.list
 
   cond1 <- (abs(x.k1$fx - x.k$fx)) <= (eps.f)
-  cond2 <- (normE(x.k1)) <= (eps.df)
+  cond2 <- (normE(x.k1$x)) <= (eps.df)
   # cond3 <- n_f > nfmax
 
   return (cond1 | cond2 )

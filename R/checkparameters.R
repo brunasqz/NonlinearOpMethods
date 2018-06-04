@@ -49,7 +49,7 @@ checkparameters <- function(obj.list, x.list) {
 
   if(!("dfx") %in% x.list) {
 
-    dfx.k1 <- dFun(x.list$x, obj.list$functionObj)
+    dfx.k1 <- dFun(f = obj.list$functionObj,x = x.list$x)
 
     #Complete the list
     x.list$dfx <- dfx.k1

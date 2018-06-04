@@ -89,7 +89,7 @@ quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, 
     alpha <- out[[2]] #numeric
 
     #Gradient in the new point
-    dfx.k1 <- dFun(x.k1$x, obj)
+    dfx.k1 <- dFun(obj, x.k1$x)
 
     #BFGS constants
     v <- x.k$x - x.k1$x
