@@ -2,16 +2,19 @@ quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, 
 
   #Copy of values
   obj <- obj.list$f
+
   if(!("df") %in% names(obj.list)) {
     dFun <- gradient
   } else {
     dFun <- obj.list$df
   }
-
+  if(!("dfx") %in% names(x.list)) {
+    dfx.k1 <- dFun(obj, x.list$x)
+  } else {
+    dfx.k1 <- x.list$dfx
+  }
 
   x.k1 <- x.list
-  dfx.k1 <- x.list$dfx
-
 
   #--------Quasi-Newton Method--------------#
 
@@ -27,7 +30,7 @@ quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, 
     #Backtracking
     alpha <- backtracking(obj, x.k, searchD, alpha0, rho, c)
     xp <- x.k$x + as.numeric(searchD*alpha)
-    x.k1 <- list(x = x.p,
+    x.k1 <- list(x = xp,
                  fx = obj(xp),
                  dfx = dFun(obj, xp))
 
