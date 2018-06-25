@@ -1,19 +1,14 @@
-#' Broyden Fletcher Goldfarb Shanno method.
+#' Broyden Fletcher Goldfarb Shanno update method.
 #'
-#' \code{bfgs} is a iterative method for update the approximate hessian (or its inverse) in Quasi-Newton method.
+#' \code{bfgs} is an update scheme to get a new Hessian inverse approximation in
+#' a Quasi-Newton method.
 #'
-#' @param r A vector, the difference of the gradient values at the points (dfx) of the current and previous iteration.
-#' @param v A vector, the difference of the points (x) of the current and previous iteration.
-#' @param hess A matrix, hessian.
-#' @return C, a approximation of the inverse hessian.
+#' @param x.list A list with the current solution
+#' @param xnew.list A list with the new solution in the same iteration
+#' @param H Current Hessian inverse approximation
 #'
-#' @seealso The documentation of the Quasi-newton method \code{quasiNewton} in this package.
-#'
-#' @examples
-#' r <- df_k - df_k1
-#' v <- x_k - x_k1
-#' hess <- diag(length(x_k))
-#' hess <- hess + bfgs(r, v, hess)
+#' @seealso The documentation of the Quasi-newton method \code{quasiNewton} in
+#' this package.
 #'
 #' @references
 #' \enumerate{
@@ -22,17 +17,29 @@
 #' \emph{Notas de aula de Otimizacao}, pages 26:28.
 #' }
 
-bfgs <- function(r, v, hess) {
-
-  I <- diag(length(v))
-  v <- matrix(v, ncol = 1) #xk - xk1
-  r <- matrix(r, ncol = 1) #dfxk - dfxk1
-  tv <- t(v)
-  tr <- t(r)
-  const1 <- v %*% tr / as.numeric(tr %*% v)
-  const2 <- r %*% tv / as.numeric(tr %*% v)
-  C <- (I - const1) %*% hess %*% (I - const2) + v %*% tv / as.numeric(tr %*% v)
-
-
-  return(C)
+bfgs <- function(x.list, xnew.list, H)
+{
+  dx <- xnew.list$x - x.list$x
+  y <- xnew.list$dfx - x.list$dfx
+  I = diag(length(dx))
+  # Split the terms for easier visualization
+  term1 <- I - (dx %*% t(y)) / as.numeric( (t(y) %*% dx) )
+  term2 <- I - (y %*% t(dx)) / as.numeric( (t(y) %*% dx) )
+  term3 <- (dx %*% t(dx)) / as.numeric( (t(y) %*% dx) )
+  return ( term1 %*% H %*% term2 + term3 )
 }
+
+# bfgs <- function(r, v, hess) {
+#
+#   I <- diag(length(v))
+#   v <- matrix(v, ncol = 1) #xk - xk1
+#   r <- matrix(r, ncol = 1) #dfxk - dfxk1
+#   tv <- t(v)
+#   tr <- t(r)
+#   const1 <- v %*% tr / as.numeric(tr %*% v)
+#   const2 <- r %*% tv / as.numeric(tr %*% v)
+#   C <- (I - const1) %*% hess %*% (I - const2) + v %*% tv / as.numeric(tr %*% v)
+#
+#
+#   return(C)
+# }

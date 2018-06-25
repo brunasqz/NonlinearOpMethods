@@ -5,7 +5,7 @@
 \title{Bracketing.}
 \usage{
 bracketing(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2,
-  kmax = 50)
+  maxNI = 50)
 }
 \arguments{
 \item{phi}{A univariate function.}
@@ -83,7 +83,7 @@ bracket <- bracketing(phi, alpha0 = 4, sstep = -0.05) #(0.85, 3.25)
 # Finally, from -4 to the left this function has no finite minimum, and thus
 # the algorithm goes until the total iterations are run. This is an indicator
 # of a problem with no minimum.
-bracket <- bracketing(phi, alpha0 = -4, sstep = -0.05)#'
+bracket <- bracketing(phi, alpha0 = -4, sstep = -0.05)
 
 }
 \references{

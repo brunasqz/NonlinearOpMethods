@@ -4,7 +4,7 @@
 #' length that makes a reasonable reduction in function value in a given search
 #' direction.
 #'
-#' @param f The objective function.
+#' @param obj.list A list with the problem functions.
 #' @param x.list A list with the current solution. It must have the names \cr
 #'   x: a vector with its value in the search space \cr
 #'   fx: a scalar with its objective value \cr
@@ -63,7 +63,10 @@
 #' }
 #' @export
 
-backtracking <- function(f, x.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-4)
+backtracking <- function(obj.list, x.list, searchD,
+                         alpha0 = 1,
+                         rho = 0.5,
+                         c = 1e-4)
 {
   x <- x.list$x
   fx <- x.list$fx
@@ -72,7 +75,7 @@ backtracking <- function(f, x.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-4)
   alpha <- alpha0 #initial alpha
   sdfx <- sum(dfx * searchD) #dot product between dfx and searchD
 
-  while( f(x + alpha*searchD) > fx + c*alpha*sdfx )
+  while( obj.list$f(x + alpha*searchD) > fx + c*alpha*sdfx )
   {
     alpha <- alpha*rho
   }
