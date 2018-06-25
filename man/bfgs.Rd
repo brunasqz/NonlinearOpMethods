@@ -2,29 +2,20 @@
 % Please edit documentation in R/bfgs.R
 \name{bfgs}
 \alias{bfgs}
-\title{Broyden Fletcher Goldfarb Shanno method.}
+\title{Broyden Fletcher Goldfarb Shanno update method.}
 \usage{
-bfgs(r, v, hess)
+bfgs(x.list, xnew.list, H)
 }
 \arguments{
-\item{r}{A vector, the difference of the gradient values at the points (dfx) of the current and previous iteration.}
+\item{x.list}{A list with the current solution}
 
-\item{v}{A vector, the difference of the points (x) of the current and previous iteration.}
+\item{xnew.list}{A list with the new solution in the same iteration}
 
-\item{hess}{A matrix, hessian.}
-}
-\value{
-C, a approximation of the inverse hessian.
+\item{H}{Current Hessian inverse approximation}
 }
 \description{
-\code{bfgs} is a iterative method for update the approximate hessian (or its inverse) in Quasi-Newton method.
-}
-\examples{
-r <- df_k - df_k1
-v <- x_k - x_k1
-hess <- diag(length(x_k))
-hess <- hess + bfgs(r, v, hess)
-
+\code{bfgs} is an update scheme to get a new Hessian inverse approximation in
+a Quasi-Newton method.
 }
 \references{
 \enumerate{
@@ -34,5 +25,6 @@ hess <- hess + bfgs(r, v, hess)
 }
 }
 \seealso{
-The documentation of the Quasi-newton method \code{quasiNewton} in this package.
+The documentation of the Quasi-newton method \code{quasiNewton} in
+this package.
 }

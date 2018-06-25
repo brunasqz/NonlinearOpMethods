@@ -2,9 +2,6 @@
 
 export(backtracking)
 export(bracketing)
-export(conjugateGradient)
 export(goldensection)
-export(linesearch)
 export(quadraticinterpolation)
 export(quasiNewton)
-export(univariate_f)

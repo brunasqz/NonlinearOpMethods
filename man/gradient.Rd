@@ -15,16 +15,19 @@ gradient(f, x, fx = NULL, dx = 1e-06, method = c("ffd", "cfd"))
 
 \item{dx}{A number, the small perturbation in x.}
 
-\item{method}{character string, specifying the discretization method.
-"ffd": Forward finite differences. Requires n+1 evaluations (or n if fx is provided)
-"cfd": Central (or Symmetrical) finite differences. Requires 2n evaluations (fx is not used)}
+\item{method}{character string, specifying the discretization method. \cr
+"ffd": Forward finite differences. Requires n+1 evaluations (or n if fx is
+provided) \cr
+"cfd": Central (or Symmetrical) finite differences. Requires 2n evaluations
+(fx is not used)}
 }
 \value{
 df the numerical approximation of the gradient.
 }
 \description{
-\code{gradient} is a function based on the algorithm of numerical differentiation for estimating the gradient
-using finite difference approximations.
+\code{gradient} is a function based on the algorithm of numerical
+differentiation for estimating the gradient using finite difference
+approximations.
 }
 \examples{
 f <- function(x) {return ( sum(x^2) )}
