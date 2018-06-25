@@ -2,9 +2,9 @@
 % Please edit documentation in R/quadraticinterpolation.R
 \name{quadraticinterpolation}
 \alias{quadraticinterpolation}
-\title{Quadratic Interpolation Method.}
+\title{Quadratic Interpolation Method. (SOME BUGS, BUT WHO CARES?)}
 \usage{
-quadraticinterpolation(phi_f, l = 0, u = 1, eps = 1e-06)
+quadraticinterpolation(phi.f, l = 0, u = 1, eps = 1e-06)
 }
 \arguments{
 \item{l, u}{Numbers, initial interval (or points).}

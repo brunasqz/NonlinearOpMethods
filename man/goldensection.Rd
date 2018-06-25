@@ -4,7 +4,7 @@
 \alias{goldensection}
 \title{Golden Section Method.}
 \usage{
-goldensection(phi, a = 0, b = 1, eps = 1e-06)
+goldensection(phi, a = 0, b = 1, eps.alpha = 1e-06)
 }
 \arguments{
 \item{phi}{A univariate function.}

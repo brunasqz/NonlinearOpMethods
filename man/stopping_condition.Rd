@@ -4,19 +4,21 @@
 \alias{stopping_condition}
 \title{Stopping conditions in iterative methods}
 \usage{
-stopping_condition(x_k1, x_k, Options.list)
+stopping_condition(x.k1, x.k, eps.f = 1e-09, eps.df = 1e-08)
 }
 \arguments{
-\item{x_k1}{A list that contains the information of the point in next iteration and must
-have the following names, x (for the point), fx (for the value of the function in x), dfx
-(for the value of the gradiente in x), as the example \cr
-\code{x_example <- list(x = c(1,1), fx = 12, dfx = c(-1, 2))}. \cr}
+\item{x.k1}{A list that contains the information of the point in current iterantion.
+It must have the names \cr
+ x: a vector with its value in the search space \cr
+ fx: a scalar with its objective value \cr
+ dfx: a vector with its gradient value \cr}
 
-\item{x_k}{A list that contains the information of the point in current iterantion, in the
+\item{x.k}{A list that contains the information of the point in current iterantion, in the
 same pattern as \code{x_k1}.}
 
-\item{Options.list}{A list as the example \cr
-\code{options <- list(eps_f = , eps_df =)} \cr}
+\item{eps.f}{A number for minimum variation of the objective function in the iterations.}
+
+\item{eps.df}{A number for minimum variation of the gradient in the iterations.}
 }
 \value{
 Returns a results of boolean algebra.
@@ -27,21 +29,8 @@ when the conditions are fulfilled. These conditions are stabilization of the fun
 value, reduction of the gradient norm to a value less than epsilon and maximum number of
 evaluation of objective funtion.
 }
-\section{Options.list}{
-
-In this function, Options.list may contain the following names:
-\itemize{
-\item Eps_f, for minimum variation of the objective function in the iterations.
-\item Eps_df, for minimum variation of the gradient in the iterations.
-}
-}
-
 \examples{
-options <- list(Eps_f = 1e-9, Eps_df = 1e-8)
 x1 <- list(x = c(1,1), fx = 12, dfx = c(-1,2))
 xk <- list(x = c(0.008, 1.01), fx = 11.00009, dfx = c(-0.9999, 2.9999))
-stopping_condition(x1, xk, options)
-}
-\seealso{
-The documentation of function \code{checkparameters} for the parameter Options.list.
+stopping_condition(x1, xk, eps_f = 1e-9, eps_df = 1e-8)
 }
