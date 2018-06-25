@@ -1,4 +1,4 @@
-quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, alpha0 = 1, rho = 0.5, c = 1e-4){
+quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, alpha0 = 1, rho = 0.5, c = 1e-4, methodgradient = c("ffd", "cfd")){
 
   #Copy of values
   obj <- obj.list$f
@@ -9,7 +9,7 @@ quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, 
     dFun <- obj.list$df
   }
   if(!("dfx") %in% names(x.list)) {
-    dfx.k1 <- dFun(obj, x.list$x)
+    dfx.k1 <- dFun(obj, x.list$x, method = methodgradient)
   } else {
     dfx.k1 <- x.list$dfx
   }
@@ -32,7 +32,7 @@ quasiNewton <- function(obj.list, x.list, maxNI = 50, eps.df = 1-6, eps = 1e-4, 
     xp <- x.k$x + as.numeric(searchD*alpha)
     x.k1 <- list(x = xp,
                  fx = obj(xp),
-                 dfx = dFun(obj, xp))
+                 dfx = dFun(obj, xp, method = methodgradient))
 
     #Gradient in the new point
     dfx.k1 <- x.k1$dfx
