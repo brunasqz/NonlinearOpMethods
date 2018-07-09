@@ -35,6 +35,7 @@ check_parameters <- function(obj.list, x.list, ...)
   if(!("df") %in% names(obj.list))
   {
     obj.list$df <- function (x, fx) gradient(obj.list$f, x, fx = fx, ...)
+    #obj.list$df <- gradient
   }
 
   ## Verify x.list
