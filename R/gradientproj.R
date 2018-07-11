@@ -6,6 +6,9 @@ gradientproj <- function(obj.list, x.list, constraint, maxNI = 50, eps = 1e-4, a
   obj.list <- out[[1]]
   x.list <- out[[2]]
 
+  if((x.list$x > constraint$xmax) | (x.list$x < constraint$xmin))
+    stop("Error: x point out of the restrictions")
+
   x.k1 <- x.list
   dfx.k1 <- x.list$dfx
   searchD <- alpha0*dfx.k1
