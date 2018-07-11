@@ -5,7 +5,7 @@ hjalgorithm <- function(x, obj, h, eps) {
 
     for(i in 1:nrow(searchD)) {
       x.k1 <- x
-      x.k1 <- x.k1 + h * searchD[3,]
+      x.k1 <- x.k1 + h * searchD[i,]
 
       if(obj(x.k1) < obj(x)) {
         x <- x.k1
