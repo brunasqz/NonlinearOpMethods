@@ -2,7 +2,7 @@
 % Please edit documentation in R/quadraticinterpolation.R
 \name{quadraticinterpolation}
 \alias{quadraticinterpolation}
-\title{Quadratic Interpolation Method. (SOME BUGS, BUT WHO CARES?)}
+\title{Quadratic Interpolation Method.}
 \usage{
 quadraticinterpolation(phi.f, l = 0, u = 1, eps = 1e-06)
 }

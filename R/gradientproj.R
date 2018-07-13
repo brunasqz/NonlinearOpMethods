@@ -1,3 +1,36 @@
+#' Constrained optimization with Gradient Projection
+#'
+#' \code{gradientproj} solves a multivariate function with constraints using the
+#' Gradient Projection.
+#'
+#' @param obj.list Either an objective function or a list with the following
+#' names \cr
+#'   f: objective function
+#'   df: gradient of f (it not provided, defaults to the numerical version)
+#' @param x.list Either a vector with an initial solution or a list with the
+#' following names \cr
+#'   x: a vector with its value in the search space \cr
+#'   fx: a scalar with its objective value \cr
+#'   dfx: a vector with its gradient value \cr
+#' @param constraint A list, with the following names \cr
+#' xmin: lower restriction \cr
+#' xmax: upper restraint \cr
+#' @param maxNI maximum number of iterations
+#' @param eps tolerance for stop codition
+#' @param alpha0 Initial step size in the backtracking
+#' @param rho A constant to reduce alpha in backtracking
+#' @param c A small constant, control parameter.
+#'
+#' @return Returns a list with the (approximate) optimum.
+#'
+#' @examples
+#'
+#' @references
+#' \enumerate{
+#' \item Nocedal, C.T.; \emph{Iterative Methods for optimization}.
+#' }
+#' @export
+
 #Reference: Kelley - Iterative Methods for optimization
 gradientproj <- function(obj.list, x.list, constraint, maxNI = 50, eps = 1e-4, alpha0 = 1, c = 1e-4, rho = 0.5, ...) {
   ## Initial considerations
