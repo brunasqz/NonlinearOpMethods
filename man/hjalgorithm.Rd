@@ -18,7 +18,7 @@ hjalgorithm(obj, x, h = 0.25, eps = 1e-06, constraint = NULL, c1 = 1.1,
 
 \item{constraint}{A list, with the following names \cr
 xmin: lower restriction \cr
-xmax: upper restraint.}
+xmax: upper restraint \cr}
 
 \item{c2}{}
 }
@@ -31,6 +31,19 @@ function evaluations.
 for numerical optimization of functions without the use of the gradient.
 }
 \examples{
+# The popular Rosenbrock function
+f <- function(x)
+{
+  x1 <- x[1]
+  x2 <- x[2]
+  return ( 100*(x2 - x1^2)^2 + (1 - x1)^2 )
+}
+x0 <- c(-1.2,1) #usual starting point
+hjalgorithm(x0, f)
+#With constraint
+const <- list(xmin = c(2, 2), xmax = c(4,4))
+x0 <- c(3,3)
+hjalgorithm(rosenblock, c(3,3), constraint = const)
 
 }
 \references{

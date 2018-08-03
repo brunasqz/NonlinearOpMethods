@@ -3,5 +3,7 @@
 export(backtracking)
 export(bracketing)
 export(goldensection)
+export(gradientproj)
+export(hjalgorithm)
 export(quadraticinterpolation)
 export(quasiNewton)
