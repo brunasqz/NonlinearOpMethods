@@ -30,8 +30,45 @@ In the _backtracking_, _gradientproj_, _quasiNewton_ functions the user must hav
 
 This information must be passed in the form of a list that must contain the starting point, function value, and gradient evaluated at that point. In _grandientproj_ and _quasiNewton_, there is verification of the correct format of the list, if the user pass only the value of the point, the function *check_parameters* creates a complete list with all the necessary.
 
-```{r cars}
+```{r xlist}
+#example:
+#The popular Rosenbrock function 
+fun1 <- function(x) 
+{
+  x1 <- x[1]
+  x2 <- x[2]
+  return( 100 * (x2 - x1)^2 + (1 - x1)^2)
+}
 
+f1 <- fun1(c(-1.2,1))
+x1.list <- list(x = c(-1.2,1),
+                fx = f1)
+#In this case, in gradientproj and quasiNewton, the check_parameters complete the x1.list with the argument "dfx"
+
+#other example:
+#A simple quadratic function
+fun2 <- function(x) 
+{
+  return(sum(x^2))
+}
+
+dfun2 <- function(x) 
+{
+  return(2*x)
+}
+
+f2 <- fun2(c(1,1))
+dfx2 <- dfun2(c(1,1))
+x2.list <- list(x = c(1,1), fx = f2, dfx = dfx2)
+
+```
+
+### Parameter "phi"
+
+The _phi_ variable used in bracketing, goldensection, quadraticinterpolation, represents unimodal functions . Thus, for the operation of these numerical methods correctly, the parameter _phi_ must be passed as a function that depends only on a unimodal variable (one-dimensional) and returns the value of the objective function evaluated at the point.
+
+```{r phi}
+phi <- function(x) { return(x^2 + 5*x + 6) }
 ```
 
 ### Parameter "obj.list"
@@ -40,10 +77,22 @@ This information must be passed in the form of a list that must contain the star
 
 In _gradientproj_ and _quasiNewton_, there is the verification of the _obj.list_. If the objective function is passed, the function *check_parameters* creates a complete list with the _df_ function, which uses the default gradient function for central finite differences, if the user wants to modify parameters for calculation of the numerical gradient it must be passed int the "..." from the calls of a _gradientproj_ and _quasiNewton_.
 
+```{r objlist}
+
+```
+
 ### Parameter "constraint"
 This list is necessary for functions with box constraints and has the following elements: _xmin_ and _xmax_. The function _hjalgorithm_ could be use both for functions under constraints and unconstraints problems. Thus, when is not passed for the function the constraints, it is considered that $xmin = -Inf$ and $xmax = +Inf$. 
 
+```{r constraint}
+#to avoid error messages the point must be in the range between xmin and xmax
 
+x <- c(2.3, 4.7)
+constraint <- list(xmax = c(5,5), xmin = c(-2.1, -1.0))
+
+```
 ## IMPORTANT NOTES
 
 ### Maximum number of iterations
+The _maxNI_ parameter represents a maximum limit for the iterations of a method. That is, if is passed for the function a bad condition problem, or that the method don't converge for the optimum point, or that it is realizing a excessive number of avaliations, the process will be finished for the maximum number of iterations. The value of _maxNI_, by default, can be checked for documentation of each function of this package.
+
