@@ -79,6 +79,29 @@ In _gradientproj_ and _quasiNewton_, there is the verification of the _obj.list_
 
 ```{r objlist}
 
+#example:
+#A simple quadratic function
+obj1.list <- list(f = function(x) return(sum(x^2)),
+                  df = function(x) return(2*x))
+
+#other example:
+obj2 <- function(x) {
+  obj2 <- x[1]^2 + 2*x[2]^2 + 3*x[3]^2 - 2*x[1] -4*x[2] -6*x[3] + 6
+  
+  return(obj2)
+}
+
+df2 <- function(x) {
+  df2 <- c(2*(x[1] - 1), 4*(x[3] - 1), 6*(x[3] - 1))
+  return(df2)
+}
+
+obj2.list <- list(f = obj2,
+                  df = df2)
+
+#In gradientproj and quasiNewton, the user can pass as a parameter only the objective function:
+obj3.list <- list(f = function(x) return(x[1]^4 - 8*x[1]^3 + 25*(x[1]^2) + 4*(x[2]^2) -4*x[1]*x[2] -32*x[1] + 16))
+
 ```
 
 ### Parameter "constraint"
