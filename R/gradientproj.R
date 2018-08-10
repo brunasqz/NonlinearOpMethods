@@ -20,10 +20,22 @@
 #' @param alpha0 Initial step size in the backtracking
 #' @param rho A constant to reduce alpha in backtracking
 #' @param c A small constant, control parameter.
+#' @param ... parameters used in the check_parameters function
 #'
 #' @return Returns a list with the (approximate) optimum.
 #'
 #' @examples
+#' f <- function(x) {
+#'  f1 <- x[1]^2 + 2*x[2]^2 + 3*x[3]^2 - 2*x[1] -4*x[2] -6*x[3] + 6
+#'  return(f1)
+#' }
+#' x0 <- list(x = c(2.8,3,3.5), fx = f(c(2.8,3,3.5)))
+#' const <- list(xmin = c(2,2,2), xmax = c(4,4,4))
+#' gradientproj(f, x0, const)
+#'
+#' #can also be used to list:
+#' obj <- list(functionObj = f)
+#' gradientproj(obj, x0, const)
 #'
 #' @references
 #' \enumerate{
@@ -58,7 +70,7 @@ gradientproj <- function(obj.list, x.list, constraint, maxNI = 50, eps = 1e-4, a
 
     #Gradient in the new point
     dfx.k1 <- x.k1$dfx
-    print(list(i, x.k, x.k1))
+
     if (identical(stopping_condition(x.k1, x.k), TRUE)) #default eps.df or eps.f?
     {
       break
@@ -95,4 +107,5 @@ backtracking.gp <- function(obj.list, x.list, constraint, alpha0 = 1, rho = 0.5,
 
   return(alpha)
 }
+
 

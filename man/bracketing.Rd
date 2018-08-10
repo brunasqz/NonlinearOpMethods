@@ -21,7 +21,7 @@ determined. It can accept positive or negative values, see below.}
 \code{t > 1}, an accelerated search is performed. Use \code{t = 1} for the
 fixed step version.}
 
-\item{kmax}{Maximum number of iterations. It can be used to determine
+\item{maxNI}{Maximum number of iterations. It can be used to determine
 degenerate problems with no finite minimum, when the bracket does not exist.}
 }
 \value{

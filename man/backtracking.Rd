@@ -51,6 +51,7 @@ f <- function (x)
  i <- seq(1, length(x))
  return (sum( (x - i)^2 ))
 }
+fun <- list(f = f)
 df <- function(x)
 {
   i <- seq(1, length(x))
@@ -61,10 +62,10 @@ x <- c(0,1,0,1) #current point
 X.list <- list(x = x, fx = f(x), dfx = df(x))
 searchD <- -df(x) #search direction (negative of the gradient, for instance)
 # Backtracking with default parameters
-alpha.opt <- backtracking(f, X.list, searchD)
+alpha.opt <- backtracking(fun, X.list, searchD)
 print(f(x + alpha.opt*searchD)) #optimum by coincidence
 # If rho were set to, say, 0.6 instead, the result would be
-alpha.opt2 <- backtracking(f, X.list, searchD)
+alpha.opt2 <- backtracking(fun, X.list, searchD)
 # Which is not the optimum in this case, but already smaller than the initial
 # solution x
 print(f(x + alpha.opt2*searchD))

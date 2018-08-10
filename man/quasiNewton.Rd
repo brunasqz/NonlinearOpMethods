@@ -31,6 +31,8 @@ solutions}
 \item{rho}{A constant to reduce alpha in backtracking}
 
 \item{c}{A small constant, control parameter.}
+
+\item{...}{parameters used in the check_parameters function}
 }
 \value{
 Returns a list with the (approximate) optimum.

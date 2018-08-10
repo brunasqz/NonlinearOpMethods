@@ -10,7 +10,7 @@
 #' After this evaluation, it is analyzed (through comparisons) at which two points the
 #' alpha is between and are chosen the next values for the refite
 #'
-#' @param phif A univariate function.
+#' @param phi.f A univariate function.
 #' @param l,u Numbers, initial interval (or points).
 #' @param eps A number, used in the stop condition.
 #' @return Returns the step length \code{alpha}.
@@ -22,9 +22,9 @@
 #' @seealso The documentation of the function \code{univariate_f} in this package.
 #'
 #' @examples
-#' phi <- function(alpha) {...}
-#' quadraticinterpolation(phi, a = 0, b = 10, eps = 1e-4)
-#' quadraticinterpolation(phi, 3, 7, 1e-5)
+#' #phi <- function(alpha) {...}
+#' #quadraticinterpolation(phi, l = 0, u = 10, eps = 1e-4)
+#' #quadraticinterpolation(phi, 3, 7, 1e-5)
 #' @references
 #' \enumerate{
 #' \item Rao, Singiresu S.; \emph{Engineering Optimization Theory and and Practice}, 4th ed., pages 273:279.

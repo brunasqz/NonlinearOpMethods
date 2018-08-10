@@ -18,7 +18,7 @@ Author: Bruna Queiroz [aut, cre],
     Fillipe Goulart [aut]
 Maintainer: Bruna Queiroz <bsqueiroz98@gmail.com>
 Version: 0.1.0
-License: What license is it under?
+License: GPL-2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

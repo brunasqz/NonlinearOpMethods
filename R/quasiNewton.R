@@ -19,6 +19,7 @@
 #' @param alpha0 Initial step size in the backtracking
 #' @param rho A constant to reduce alpha in backtracking
 #' @param c A small constant, control parameter.
+#' @param ... parameters used in the check_parameters function
 #'
 #' @return Returns a list with the (approximate) optimum.
 #'

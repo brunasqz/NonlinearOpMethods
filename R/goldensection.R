@@ -6,7 +6,7 @@
 #'
 #' @param phi A univariate function.
 #' @param a,b Numbers, initial interval where the function is unimodal.
-#' @param eps A number, a tolerance to stop the optimization when the current
+#' @param eps.alpha A number, a tolerance to stop the optimization when the current
 #' interval becomes smaller \code{eps}.
 #' @return Step length \code{alpha} where phi attains its minimum in
 #' \code{[a,b]} (assuming unimodality).
@@ -41,6 +41,14 @@
 #' }
 #' x <- c(0,0,0,0) #current point
 #' searchD <- c(1,2,3,4) #search direction
+#' univariate_f <- function(f, x, searchD) {
+#' phi <- f(x)
+#' function(alpha) {
+#'  phi <- f(x + alpha * searchD)
+#'
+#'  return(phi)
+#'  }
+#' }
 #' phi <- univariate_f(f, x, searchD) #return univariate version
 #' # Compute optimum over the line x + alpha*searchD in [0,2]
 #' alpha.opt <- goldensection(phi, a = 0, b = 2) #approx 1

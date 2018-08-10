@@ -32,6 +32,8 @@ xmax: upper restraint \cr}
 \item{c}{A small constant, control parameter.}
 
 \item{rho}{A constant to reduce alpha in backtracking}
+
+\item{...}{parameters used in the check_parameters function}
 }
 \value{
 Returns a list with the (approximate) optimum.
@@ -41,6 +43,17 @@ Returns a list with the (approximate) optimum.
 Gradient Projection.
 }
 \examples{
+f <- function(x) {
+ f1 <- x[1]^2 + 2*x[2]^2 + 3*x[3]^2 - 2*x[1] -4*x[2] -6*x[3] + 6
+ return(f1)
+}
+x0 <- list(x = c(2.8,3,3.5), fx = f(c(2.8,3,3.5)))
+const <- list(xmin = c(2,2,2), xmax = c(4,4,4))
+gradientproj(f, x0, const)
+
+#can also be used to list:
+obj <- list(functionObj = f)
+gradientproj(obj, x0, const)
 
 }
 \references{

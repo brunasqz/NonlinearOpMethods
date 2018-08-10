@@ -10,8 +10,8 @@
 #' @param constraint A list, with the following names \cr
 #' xmin: lower restriction \cr
 #' xmax: upper restraint \cr
-#' @param c1
-#' @param c2
+#' @param c1 A constant to update the search step size
+#' @param c2 A constant to update the search step size
 #'
 #' @return Returns a list with the (approximate) optimum and the number of objective
 #' function evaluations.
@@ -25,11 +25,11 @@
 #'   return ( 100*(x2 - x1^2)^2 + (1 - x1)^2 )
 #' }
 #' x0 <- c(-1.2,1) #usual starting point
-#' hjalgorithm(x0, f)
+#' hjalgorithm(f, x0)
 #' #With constraint
 #' const <- list(xmin = c(2, 2), xmax = c(4,4))
 #' x0 <- c(3,3)
-#' hjalgorithm(rosenblock, c(3,3), constraint = const)
+#' hjalgorithm(f, c(3,3), constraint = const)
 #'
 #' @references
 #' \enumerate{

@@ -20,17 +20,9 @@ same pattern as \code{x_k1}.}
 
 \item{eps.df}{A number for minimum variation of the gradient in the iterations.}
 }
-\value{
-Returns a results of boolean algebra.
-}
 \description{
 \code{stopping_conditions} is a function used in iterative methods for stopping the process
 when the conditions are fulfilled. These conditions are stabilization of the function
 value, reduction of the gradient norm to a value less than epsilon and maximum number of
 evaluation of objective funtion.
-}
-\examples{
-x1 <- list(x = c(1,1), fx = 12, dfx = c(-1,2))
-xk <- list(x = c(0.008, 1.01), fx = 11.00009, dfx = c(-0.9999, 2.9999))
-stopping_condition(x1, xk, eps_f = 1e-9, eps_df = 1e-8)
 }

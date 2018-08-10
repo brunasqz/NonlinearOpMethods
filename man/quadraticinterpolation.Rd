@@ -7,11 +7,11 @@
 quadraticinterpolation(phi.f, l = 0, u = 1, eps = 1e-06)
 }
 \arguments{
+\item{phi.f}{A univariate function.}
+
 \item{l, u}{Numbers, initial interval (or points).}
 
 \item{eps}{A number, used in the stop condition.}
-
-\item{phif}{A univariate function.}
 }
 \value{
 Returns the step length \code{alpha}.
@@ -36,9 +36,9 @@ at a given point.
 }
 
 \examples{
-phi <- function(alpha) {...}
-quadraticinterpolation(phi, a = 0, b = 10, eps = 1e-4)
-quadraticinterpolation(phi, 3, 7, 1e-5)
+#phi <- function(alpha) {...}
+#quadraticinterpolation(phi, l = 0, u = 10, eps = 1e-4)
+#quadraticinterpolation(phi, 3, 7, 1e-5)
 }
 \references{
 \enumerate{

@@ -12,7 +12,7 @@
 #' @param t Multiplicator factor to increase sstep in each iteration. If
 #' \code{t > 1}, an accelerated search is performed. Use \code{t = 1} for the
 #' fixed step version.
-#' @param kmax Maximum number of iterations. It can be used to determine
+#' @param maxNI Maximum number of iterations. It can be used to determine
 #' degenerate problems with no finite minimum, when the bracket does not exist.
 #'
 #' @return Returns a bracket in the format of a list. These intervals can be
