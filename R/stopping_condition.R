@@ -16,8 +16,9 @@
 #' @param eps.df A number for minimum variation of the gradient in the iterations.
 #' @return Returns a results of boolean algebra.
 #'
-#'\dontrun{
 #' @examples
+#'
+#'\dontrun{
 #' x1 <- list(x = c(1,1), fx = 12, dfx = c(-1,2))
 #' xk <- list(x = c(0.008, 1.01), fx = 11.00009, dfx = c(-0.9999, 2.9999))
 #' stopping_condition(x1, xk, eps.f = 1e-9, eps.df = 1e-8)

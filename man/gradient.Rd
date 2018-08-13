@@ -21,10 +21,31 @@ provided) \cr
 "cfd": Central (or Symmetrical) finite differences. Requires 2n evaluations
 (fx is not used)}
 }
+\value{
+df the numerical approximation of the gradient.
+}
 \description{
 \code{gradient} is a function based on the algorithm of numerical
 differentiation for estimating the gradient using finite difference
 approximations.
+}
+\examples{
+\dontrun{
+f <- function(x) {return ( sum(x^2) )}
+df_analytical <- function (x) {return (2*x)}
+x <- c(1,1) #current point
+gradient(f, x) #uses ffd by default
+gradient(f, x, method = "cfd")
+df_analytical(x)
+
+x <- seq(1,100)
+dfx_analytical <- df_analytical(x)
+dfx_ffd <- gradient(f, x, method = "ffd")
+dfx_cfd <- gradient(f, x, method = "cfd")
+norm(dfx_analytical - dfx_ffd, type = "2") #error in the FFD approximation
+norm(dfx_analytical - dfx_cfd, type = "2") #error in the CFD approximation
+}
+
 }
 \references{
 \enumerate{

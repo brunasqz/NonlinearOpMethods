@@ -15,8 +15,9 @@
 #' (fx is not used)
 #'
 #' @return df the numerical approximation of the gradient.
-#' \dontrun{
+#'
 #' @examples
+#' \dontrun{
 #' f <- function(x) {return ( sum(x^2) )}
 #' df_analytical <- function (x) {return (2*x)}
 #' x <- c(1,1) #current point
@@ -31,6 +32,7 @@
 #' norm(dfx_analytical - dfx_ffd, type = "2") #error in the FFD approximation
 #' norm(dfx_analytical - dfx_cfd, type = "2") #error in the CFD approximation
 #' }
+#'
 #' @references
 #' \enumerate{
 #' \item Wikipedia, \emph{Numerical differentiation}, \url{https://en.wikipedia.org/wiki/Numerical_differentiation}.
