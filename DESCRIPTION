@@ -1,6 +1,6 @@
 Package: NonlinearOpMethods
 Type: Package
-Title: Developing package encompassing nonlinear optimization methods
+Title: Developing Package Encompassing Nonlinear Optimization Methods
 Description: This package has the implementation of some numeric methods 
     for restricted and unrestricted nonlinear optimization problems. 
     The implemented algorithms have several references that allowed to 
