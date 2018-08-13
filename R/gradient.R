@@ -1,19 +1,23 @@
 #' Gradient by the numerical approximation
 #'
-#' \code{gradient} is a function based on the algorithm of numerical differentiation for estimating the gradient
-#' using finite difference approximations.
+#' \code{gradient} is a function based on the algorithm of numerical
+#' differentiation for estimating the gradient using finite difference
+#' approximations.
 #'
 #' @param f A function, representing the objective function.
 #' @param x A number or vector with length n, indicating the current point.
 #' @param fx A number, the objective value calculated at x.
 #' @param dx A number, the small perturbation in x.
-#' @param method character string, specifying the discretization method.
-#' "ffd": Forward finite differences. Requires n+1 evaluations (or n if fx is provided)
-#' "cfd": Central (or Symmetrical) finite differences. Requires 2n evaluations (fx is not used)
+#' @param method character string, specifying the discretization method. \cr
+#' "ffd": Forward finite differences. Requires n+1 evaluations (or n if fx is
+#' provided) \cr
+#' "cfd": Central (or Symmetrical) finite differences. Requires 2n evaluations
+#' (fx is not used)
 #'
 #' @return df the numerical approximation of the gradient.
 #'
 #' @examples
+#' \dontrun{
 #' f <- function(x) {return ( sum(x^2) )}
 #' df_analytical <- function (x) {return (2*x)}
 #' x <- c(1,1) #current point
@@ -27,6 +31,7 @@
 #' dfx_cfd <- gradient(f, x, method = "cfd")
 #' norm(dfx_analytical - dfx_ffd, type = "2") #error in the FFD approximation
 #' norm(dfx_analytical - dfx_cfd, type = "2") #error in the CFD approximation
+#' }
 #'
 #' @references
 #' \enumerate{

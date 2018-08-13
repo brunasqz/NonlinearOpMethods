@@ -4,14 +4,14 @@
 \alias{goldensection}
 \title{Golden Section Method.}
 \usage{
-goldensection(phi, a = 0, b = 1, eps = 1e-06)
+goldensection(phi, a = 0, b = 1, eps.alpha = 1e-06)
 }
 \arguments{
 \item{phi}{A univariate function.}
 
 \item{a, b}{Numbers, initial interval where the function is unimodal.}
 
-\item{eps}{A number, a tolerance to stop the optimization when the current
+\item{eps.alpha}{A number, a tolerance to stop the optimization when the current
 interval becomes smaller \code{eps}.}
 }
 \value{
@@ -53,6 +53,14 @@ f <- function (x)
 }
 x <- c(0,0,0,0) #current point
 searchD <- c(1,2,3,4) #search direction
+univariate_f <- function(f, x, searchD) {
+phi <- f(x)
+function(alpha) {
+ phi <- f(x + alpha * searchD)
+
+ return(phi)
+ }
+}
 phi <- univariate_f(f, x, searchD) #return univariate version
 # Compute optimum over the line x + alpha*searchD in [0,2]
 alpha.opt <- goldensection(phi, a = 0, b = 2) #approx 1

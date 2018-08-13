@@ -15,7 +15,3 @@ Returns the Euclidean norm of \code{vec}.
 \description{
 Euclidean norm.
 }
-\examples{
-normE(c(-1,2))
-normE(c(10, 25))
-}

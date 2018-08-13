@@ -4,7 +4,7 @@
 #' length that makes a reasonable reduction in function value in a given search
 #' direction.
 #'
-#' @param f The objective function.
+#' @param obj.list A list with the problem functions.
 #' @param x.list A list with the current solution. It must have the names \cr
 #'   x: a vector with its value in the search space \cr
 #'   fx: a scalar with its objective value \cr
@@ -38,6 +38,7 @@
 #'  i <- seq(1, length(x))
 #'  return (sum( (x - i)^2 ))
 #' }
+#' fun <- list(f = f)
 #' df <- function(x)
 #' {
 #'   i <- seq(1, length(x))
@@ -48,10 +49,10 @@
 #' X.list <- list(x = x, fx = f(x), dfx = df(x))
 #' searchD <- -df(x) #search direction (negative of the gradient, for instance)
 #' # Backtracking with default parameters
-#' alpha.opt <- backtracking(f, X.list, searchD)
+#' alpha.opt <- backtracking(fun, X.list, searchD)
 #' print(f(x + alpha.opt*searchD)) #optimum by coincidence
 #' # If rho were set to, say, 0.6 instead, the result would be
-#' alpha.opt2 <- backtracking(f, X.list, searchD)
+#' alpha.opt2 <- backtracking(fun, X.list, searchD)
 #' # Which is not the optimum in this case, but already smaller than the initial
 #' # solution x
 #' print(f(x + alpha.opt2*searchD))
@@ -63,7 +64,10 @@
 #' }
 #' @export
 
-backtracking <- function(f, x.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-4)
+backtracking <- function(obj.list, x.list, searchD,
+                         alpha0 = 1,
+                         rho = 0.5,
+                         c = 1e-4)
 {
   x <- x.list$x
   fx <- x.list$fx
@@ -72,7 +76,7 @@ backtracking <- function(f, x.list, searchD, alpha0 = 1, rho = 0.5, c = 1e-4)
   alpha <- alpha0 #initial alpha
   sdfx <- sum(dfx * searchD) #dot product between dfx and searchD
 
-  while( f(x + alpha*searchD) > fx + c*alpha*sdfx )
+  while( obj.list$f(x + alpha*searchD) > fx + c*alpha*sdfx )
   {
     alpha <- alpha*rho
   }

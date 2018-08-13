@@ -12,7 +12,7 @@
 #' @param t Multiplicator factor to increase sstep in each iteration. If
 #' \code{t > 1}, an accelerated search is performed. Use \code{t = 1} for the
 #' fixed step version.
-#' @param kmax Maximum number of iterations. It can be used to determine
+#' @param maxNI Maximum number of iterations. It can be used to determine
 #' degenerate problems with no finite minimum, when the bracket does not exist.
 #'
 #' @return Returns a bracket in the format of a list. These intervals can be
@@ -79,7 +79,7 @@
 #' @export
 
 
-bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.bracket = 50, ...)
+bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI = 50)
 {
   ncf <- 0 #number of function evaluations
 
@@ -97,8 +97,8 @@ bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.
   ncf <- ncf + 1
 
   # Use a for loop to limit the number of evaluations, specially if the function
-  # an infinite minimum
-  for (k in 1:maxNI.bracket)
+  # has no minimum (-infinity)
+  for (k in 1:maxNI)
   {
     if (phi2 > phi1)
     {
@@ -121,7 +121,6 @@ bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.
   # In the end, return (alpha0, alpha2) as bracketing. Notice that the correct
   # order is (alpha0, alpha2) if sstep is positive, otherwise, it should return
   # (alpha2, alpha0)
-  message("Bracketing. Number of function evaluations: ", ncf)
   if (sstep > 0)
   {
     bracket <- list(alpha0, alpha2)
@@ -130,6 +129,8 @@ bracketing <- function(phi, alpha0 = 0, phi0 = NULL, sstep = 0.05, t = 2, maxNI.
   {
     bracket <- list(alpha2, alpha0)
   }
+
+  message("Bracketing. Number of function evaluations: ", ncf)
   return(bracket)
 
 }

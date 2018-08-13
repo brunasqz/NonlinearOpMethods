@@ -17,15 +17,18 @@
 #' @return Returns a results of boolean algebra.
 #'
 #' @examples
+#'
+#'\dontrun{
 #' x1 <- list(x = c(1,1), fx = 12, dfx = c(-1,2))
 #' xk <- list(x = c(0.008, 1.01), fx = 11.00009, dfx = c(-0.9999, 2.9999))
-#' stopping_condition(x1, xk, eps_f = 1e-9, eps_df = 1e-8)
+#' stopping_condition(x1, xk, eps.f = 1e-9, eps.df = 1e-8)
+#' }
 
 
 stopping_condition <- function(x.k1, x.k, eps.f = 1e-9, eps.df = 1e-8){ #eps_f eps_df in Options.list
 
   cond1 <- (abs(x.k1$fx - x.k$fx)) <= (eps.f)
-  cond2 <- (normE(x.k1)) <= (eps.df)
+  cond2 <- (normE(x.k1$dfx)) <= (eps.df)
   # cond3 <- n_f > nfmax
 
   return (cond1 | cond2 )
