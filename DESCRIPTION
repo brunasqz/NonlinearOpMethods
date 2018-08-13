@@ -13,9 +13,13 @@ Authors@R: c(person("Bruna", "Queiroz",
     role  = c("aut", "cre")),
     person("Fillipe", "Goulart",
     email = "fillipe.gsm@gmail.com",
-    role  = "aut"))
+    role  = "aut"),
+    person("Felipe", "Campelo",
+    email = "fcampelo@ufmg.br",
+    role = "ths"))
 Author: Bruna Queiroz [aut, cre],
-    Fillipe Goulart [aut]
+    Fillipe Goulart [aut],
+    Felipe Campelo [ths]
 Maintainer: Bruna Queiroz <bsqueiroz98@gmail.com>
 Version: 0.1.0
 License: GPL-2
