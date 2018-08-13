@@ -1,13 +1,10 @@
 Package: NonlinearOpMethods
 Type: Package
-Title: Developing Package Encompassing Nonlinear Optimization Methods
-Description: This package has the implementation of some numeric methods 
-    for restricted and unrestricted nonlinear optimization problems. 
-    The implemented algorithms have several references that allowed to 
-    add some aspects of implementation to ensure better approximations to 
-    the optimal point for nonlinear optimization problems. Available methods 
-    are backtracking, bracketing, golden section, Hooke-and-Jeeves algorithm, 
-    quadratic interpolation and quasi-Newton.  
+Title: Nonlinear Optimization Methods
+Description: This package implements some common numeric methods 
+    for restricted and unrestricted nonlinear optimization problems, including 
+    Backtracking, Bracketing, Golden Search, Hooker-Jeeves, Quadratic 
+    Interpolation, and Quasi-Newton.  
 Authors@R: c(person("Bruna", "Queiroz",
     email = "bsqueiroz98@gmail.com",
     role  = c("aut", "cre")),
