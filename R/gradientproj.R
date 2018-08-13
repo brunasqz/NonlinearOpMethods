@@ -51,7 +51,7 @@ gradientproj <- function(obj.list, x.list, constraint, maxNI = 50, eps = 1e-4, a
   obj.list <- out[[1]]
   x.list <- out[[2]]
 
-  if(all(x.list$x > constraint$xmax) | all(x.list$x < constraint$xmin))
+  if(any(x.list$x > constraint$xmax) | any(x.list$x < constraint$xmin))
     stop("Error: x point out of the restrictions")
 
   x.k1 <- x.list
