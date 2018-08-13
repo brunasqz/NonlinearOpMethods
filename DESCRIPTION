@@ -18,7 +18,7 @@ Author: Bruna Queiroz [aut, cre],
     Fillipe Goulart [aut],
     Felipe Campelo [ths]
 Maintainer: Bruna Queiroz <bsqueiroz98@gmail.com>
-Version: 0.1.0
+Version: 0.1.0.9000
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
