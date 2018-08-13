@@ -2,7 +2,7 @@
 % Please edit documentation in R/gradient.R
 \name{gradient}
 \alias{gradient}
-\title{Gradient by the numerical approximation}
+\title{Gradient by numerical approximation}
 \usage{
 gradient(f, x, fx = NULL, dx = 1e-06, method = c("ffd", "cfd"))
 }

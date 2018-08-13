@@ -1,4 +1,4 @@
-#' Gradient by the numerical approximation
+#' Gradient by numerical approximation
 #'
 #' \code{gradient} is a function based on the algorithm of numerical
 #' differentiation for estimating the gradient using finite difference
